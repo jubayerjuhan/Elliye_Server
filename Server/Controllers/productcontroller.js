@@ -1,4 +1,3 @@
-const { Error } = require('mongoose')
 const Product = require('../Models/productmodel.js')
 const ErrorHandler = require('../Utils/errorHandler.js')
 const catchAsyncError = require('../Middleware/catchAsyncError.js');
