@@ -2,7 +2,7 @@ const { Error } = require('mongoose')
 const Product = require('../Models/productmodel.js')
 const ErrorHandler = require('../Utils/errorHandler.js')
 const catchAsyncError = require('../Middleware/catchAsyncError.js');
-const SearchFeature = require('../Utils/searchFeature.js');
+const ApiFeature = require('../Utils/apiFeature.js');
 
 /**
  * *Creating Product
@@ -22,11 +22,18 @@ exports.createProduct = catchAsyncError(async (req, res, next) => {
  * 
  */
 exports.getAllproducts = catchAsyncError(async (req, res) => {
-  const search = new SearchFeature(Product.find(), req.query).search()
-  const products = await search.query
+  const resultPerPage = 5;
+  const productCount = await Product.countDocuments();
+  const searchProducts = new ApiFeature(Product.find(), req.query)
+    .search()
+    .filter()
+    .pagination(resultPerPage)
+  const products = await searchProducts.query
+
   res.status(200).json({
     success: true,
-    products
+    products,
+    productCount
   })
 })
 
