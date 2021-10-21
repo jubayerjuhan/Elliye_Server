@@ -1,7 +1,8 @@
 const { Error } = require('mongoose')
 const Product = require('../Models/productmodel.js')
 const ErrorHandler = require('../Utils/errorHandler.js')
-const catchAsyncError = require('../Middleware/catchAsyncError.js')
+const catchAsyncError = require('../Middleware/catchAsyncError.js');
+const SearchFeature = require('../Utils/searchFeature.js');
 
 /**
  * *Creating Product
@@ -21,10 +22,11 @@ exports.createProduct = catchAsyncError(async (req, res, next) => {
  * 
  */
 exports.getAllproducts = catchAsyncError(async (req, res) => {
-  const product = await Product.find({})
+  const search = new SearchFeature(Product.find(), req.query).search()
+  const products = await search.query
   res.status(200).json({
     success: true,
-    product
+    products
   })
 })
 

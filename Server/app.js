@@ -12,7 +12,7 @@ const product = require('./Routes/productroute.js')
 app.use('/api/v1', product)
 
 //middleware for error 
-app.use(errorMiddleWare)
+// app.use(errorMiddleWare)
 
 
 module.exports = app
