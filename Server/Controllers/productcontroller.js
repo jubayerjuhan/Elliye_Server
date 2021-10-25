@@ -83,3 +83,83 @@ exports.getSingleProduct = catchAsyncError(async (req, res, next) => {
     product
   })
 })
+
+/**
+ * *add rating
+ */
+
+exports.addRating = catchAsyncError(async (req, res, next) => {
+  const { rating, comment, productId } = req.body
+  const review = {
+    user: req.user._id,
+    name: req.user.name,
+    rating: Number(rating),
+    comment,
+  }
+
+  const product = await Product.findById(productId)
+  const isReviewed = await product.reviews.find(review => review.user.toString() === req.user._id.toString())
+  console.log('isReviewed', isReviewed)
+
+  if (isReviewed) {
+    product.reviews.forEach(rev => {
+      if (rev.user.toString() === req.user._id.toString())
+        rev.rating = rating
+      rev.comment = comment
+    });
+  }
+  else {
+    await product.reviews.push(review)
+    product.numOfReviews = product.reviews.length
+  }
+  let avg = 0;
+  await product.reviews.forEach(rev => avg = avg + rev.rating);
+  product.ratings = Number(avg / product.reviews.length)
+  await product.save({ validateBeforeSave: false });
+  res.status(200).json({
+    success: true
+  })
+
+})
+
+/**
+ * *Get All Product Reviews
+ */
+
+exports.getAllReviews = catchAsyncError(async (req, res, next) => {
+
+  const product = await Product.findById(req.query.productId)
+  if (!product) return next(new ErrorHandler('Product Not Found', 404));
+
+  res.status(200).json({
+    success: true,
+    reviews: product.reviews
+  })
+})
+
+/**
+ * *Delete Review
+ */
+exports.deleteReview = catchAsyncError(async (req, res, next) => {
+
+  const product = await Product.findById(req.query.productId)
+  if (!product) return next(new ErrorHandler('Product Not Found', 404));
+
+  const reviews = await product.reviews.filter(review => review._id.toString() !== req.query.id.toString());
+  console.log(reviews)
+  product.reviews = reviews;
+  product.numOfReviews = product.reviews.length
+
+  let avg = 0;
+  reviews.forEach(rev => avg = avg + rev.rating)
+  let ratings = Number(avg / reviews.length)
+  if (reviews.length === 0) {
+    ratings = 0
+  }
+  product.ratings = ratings
+  await product.save({ validateBeforeSave: false });
+
+  res.status(200).json({
+    success: true,
+  })
+})
