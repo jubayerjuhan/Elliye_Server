@@ -10,7 +10,7 @@ export const getAllProducts = () => async (dispatch) => {
   } catch (error) {
     dispatch({
       type: 'ALL_PRODUCTS_FAIL',
-      payload: error.response.data.message,
+      payload: error,
     })
   }
 }
