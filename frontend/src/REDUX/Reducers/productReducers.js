@@ -11,13 +11,13 @@ export const productReducer = (state = {}, action) => {
       "ALL_PRODUCTS_SUCCESS":
       return {
         loading: false,
-        products: action.payload.products,
+        allProducts: action.payload,
 
       }
     case "ALL_PRODUCTS_FAIL":
       return {
         loading: false,
-        error: action.payload
+        error: action.payload.message
       }
     case "CLEAR_ERRORS":
       return {
@@ -51,7 +51,7 @@ export const singleProductReducer = (state = {}, action) => {
     case "ALL_PRODUCTS_FAIL":
       return {
         loading: false,
-        error: action.payload
+        error: action.payload.message
       }
     case "CLEAR_ERRORS":
       return {

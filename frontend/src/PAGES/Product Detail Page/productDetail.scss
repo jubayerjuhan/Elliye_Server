@@ -4,6 +4,9 @@
   align-items: $align;
   flex-wrap: $wrap;
 }
+button {
+  cursor: pointer;
+}
 .productDetail {
   max-width: 100vmax;
   height: 100%;
@@ -90,6 +93,21 @@
   }
   .red {
     color: red;
+  }
+}
+.reviewContainer {
+  margin-top: 40px;
+  width: 100vmax;
+  h4 {
+    margin-top: 20px;
+  }
+  .titleContainer {
+    width: 180px;
+    .title {
+      color: crimson;
+      border-bottom: 1px solid crimson;
+      padding-bottom: 5px;
+    }
   }
 }
 input[type="number"] {

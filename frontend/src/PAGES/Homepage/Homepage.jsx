@@ -4,15 +4,27 @@ import "./Homepage.css";
 import FeaturedProducts from "./Compos/Featured Products/FeaturedProducts";
 import MetaData from "./../../Components/MetaData/MetaData";
 import { useDispatch, useSelector } from "react-redux";
-import { getAllProducts } from "../../REDUX/Actions/productAction.js";
+import {
+  clearError,
+  getAllProducts,
+} from "../../REDUX/Actions/productAction.js";
 import Loader from "../../Components/Loader/Loader.jsx";
+import { useAlert } from "react-alert";
 
 const Homepage = () => {
+  const { allProducts, loading, error } = useSelector(
+    (state) => state.products
+  );
+
+  const alert = useAlert();
   const dispatch = useDispatch();
   useEffect(() => {
+    if (error) {
+      alert.error(error);
+      dispatch(clearError());
+    }
     dispatch(getAllProducts());
-  }, [dispatch]);
-  const { products, loading } = useSelector((state) => state.products);
+  }, [dispatch, alert, error]);
 
   return (
     <Fragment>
@@ -30,10 +42,9 @@ const Homepage = () => {
               </button>
             </a>
           </div>
-          {console.log(products)}
           <h6 className="collection-title">Featured Products</h6>
           <div className="featProduct-container" id="component">
-            {products?.map((product) => (
+            {allProducts?.products?.map((product) => (
               <FeaturedProducts product={product}></FeaturedProducts>
             ))}
           </div>

@@ -1,3 +1,7 @@
+button {
+  cursor: pointer;
+}
+
 .productDetail {
   max-width: 100vmax;
   height: 100%;
@@ -104,6 +108,25 @@
 
 .infoSection .red {
   color: red;
+}
+
+.reviewContainer {
+  margin-top: 40px;
+  width: 100vmax;
+}
+
+.reviewContainer h4 {
+  margin-top: 20px;
+}
+
+.reviewContainer .titleContainer {
+  width: 180px;
+}
+
+.reviewContainer .titleContainer .title {
+  color: crimson;
+  border-bottom: 1px solid crimson;
+  padding-bottom: 5px;
 }
 
 input[type="number"] {

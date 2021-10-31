@@ -83,110 +83,18 @@
           align-items: none;
   -ms-flex-wrap: wrap;
       flex-wrap: wrap;
-  padding: 3vmax;
+  padding: 3vmax 5vmax;
 }
 
-.featProduct-container a {
-  text-decoration: none;
-}
-
-.feat-product-card {
-  width: 20vmax;
-  padding: 10px;
-  color: rgba(49, 47, 47, 0.877);
-  border-radius: 10px;
-  -webkit-box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
-          box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
-  -webkit-transition: -webkit-transform 300ms ease-in-out;
-  transition: -webkit-transform 300ms ease-in-out;
-  transition: transform 300ms ease-in-out;
-  transition: transform 300ms ease-in-out, -webkit-transform 300ms ease-in-out;
-  margin-bottom: 50px;
-}
-
-.feat-product-card:hover {
-  -webkit-transform: scale(1.05);
-          transform: scale(1.05);
-}
-
-.feat-product-card .container {
-  display: -webkit-box;
-  display: -ms-flexbox;
-  display: flex;
-  -webkit-box-orient: vertical;
-  -webkit-box-direction: normal;
-      -ms-flex-direction: column;
-          flex-direction: column;
-  -webkit-box-pack: none;
-      -ms-flex-pack: none;
-          justify-content: none;
-  -webkit-box-align: center;
-      -ms-flex-align: center;
-          align-items: center;
-  padding: 0 20px;
-  margin: 0 0 20px 0;
-}
-
-.feat-product-card .container h5 {
-  font-size: clamp(1rem, 1vw, 1.4rem);
-  font-weight: 700;
-  margin-bottom: 10px;
-}
-
-.feat-product-card .container span {
-  margin-bottom: 5px;
-}
-
-.feat-product-card .container .product-price {
-  font-size: clamp(1.2rem, 4vh, 2rem);
-  margin-top: 10px;
-  margin-bottom: 10px;
-  color: crimson;
-}
-
-.feat-product-card img {
-  width: 100%;
-  -o-object-fit: contain;
-     object-fit: contain;
-  margin-bottom: 10px;
-  border-radius: 10px;
-}
-
-@media (max-width: 800px) {
-  .linkCard {
-    -ms-flex-preferred-size: 50%;
-        flex-basis: 50%;
-  }
-  .feat-product-card {
-    width: 30vmax;
-    margin-bottom: 30px;
-  }
-  .feat-product-card .container {
-    padding: 0;
-  }
-  .feat-product-card .container .img-responsive {
-    width: 100%;
-  }
+@media (max-width: 768px) {
   .featProduct-container {
     -ms-flex-pack: distribute;
         justify-content: space-around;
   }
-}
-
-@media (max-width: 425px) {
-  .linkCard {
-    -ms-flex-preferred-size: 100%;
-        flex-basis: 100%;
-  }
-  .container .img-responsive {
-    width: 100%;
-  }
-  .feat-product-card {
-    width: 60vmin;
-    margin-bottom: 30px;
-  }
-  .feat-product-card .container {
-    padding: 0;
+  .feat-product-container {
+    -ms-flex-preferred-size: 50%;
+        flex-basis: 50%;
+    max-width: 250px;
   }
 }
 /*# sourceMappingURL=Homepage.css.map */

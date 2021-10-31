@@ -72,85 +72,15 @@
 .featProduct-container {
   @include flex(row, none, space-between);
   flex-wrap: wrap;
-  padding: 3vmax;
-  a {
-    text-decoration: none;
-  }
-}
-.feat-product-card {
-  width: 20vmax;
-  padding: 10px;
-  color: rgba(49, 47, 47, 0.877);
-  border-radius: 10px;
-  box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
-  transition: transform 300ms ease-in-out;
-  margin-bottom: 50px;
-  //Hover on card
-  &:hover {
-    transform: scale(1.05);
-  }
-  .container {
-    @include flex(column, center, none);
-    padding: 0 20px;
-    margin: 0 0 20px 0;
-    h5 {
-      font-size: clamp(1rem, 1vw, 1.4rem);
-      font-weight: 700;
-      margin-bottom: 10px;
-    }
-    span {
-      margin-bottom: 5px;
-    }
-    .product-price {
-      font-size: clamp(1.2rem, 4vh, 2rem);
-      margin-top: 10px;
-      margin-bottom: 10px;
-      color: crimson;
-    }
-  }
-
-  img {
-    width: 100%;
-    object-fit: contain;
-    margin-bottom: 10px;
-    border-radius: 10px;
-  }
+  padding: 3vmax 5vmax;
 }
 
-@media (max-width: 800px) {
-  .linkCard {
-    flex-basis: 50%;
-  }
-  .feat-product-card {
-    width: 30vmax;
-    margin-bottom: 30px;
-    .container {
-      padding: 0;
-      .img-responsive {
-        width: 100%;
-      }
-    }
-  }
+@media (max-width: 768px) {
   .featProduct-container {
     justify-content: space-around;
   }
-}
-
-@media (max-width: 425px) {
-  .linkCard {
-    flex-basis: 100%;
-  }
-  .container {
-    .img-responsive {
-      width: 100%;
-    }
-  }
-
-  .feat-product-card {
-    width: 60vmin;
-    margin-bottom: 30px;
-    .container {
-      padding: 0;
-    }
+  .feat-product-container {
+    flex-basis: 50%;
+    max-width: 250px;
   }
 }

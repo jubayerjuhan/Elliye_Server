@@ -10,16 +10,18 @@ const { sendResetPassEmail } = require('../Utils/JetmailEmail.js');
  */
 
 exports.registerUser = catchAsyncError(async (req, res, next) => {
-  const { name, email, password } = req.body;
+  const { name, email, password, avatar } = req.body;
+  console.log('avatar.......', avatar)
   const user = await User.create({
     name,
     email,
     password,
     avatar: {
-      public_id: 'this is a sample id',
+      public_id: avatar,
       url: 'this is a sample url'
     }
   })
+
   sendJwtToken(user, 201, res)
 })
 
@@ -32,6 +34,7 @@ exports.loginUser = catchAsyncError(async (req, res, next) => {
   if (!email || !password) return next(new ErrorHandler('Please Enter Email and Password', 400));
 
   const user = await User.findOne({ email }).select('+password')
+  const userReturn = await User.findOne({ email })
 
   if (!user) return next(new ErrorHandler('Invalid Email or Password', 401));
 
@@ -39,7 +42,7 @@ exports.loginUser = catchAsyncError(async (req, res, next) => {
   console.log(isPasswordMatched)
   if (!isPasswordMatched) return next(new ErrorHandler('Invalid Email or Password', 401));
 
-  sendJwtToken(user, 200, res)
+  sendJwtToken(userReturn, 200, res)
 })
 
 /**
