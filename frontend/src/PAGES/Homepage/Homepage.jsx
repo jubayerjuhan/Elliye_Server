@@ -44,8 +44,8 @@ const Homepage = () => {
           </div>
           <h6 className="collection-title">Featured Products</h6>
           <div className="featProduct-container" id="component">
-            {allProducts?.products?.map((product) => (
-              <FeaturedProducts product={product}></FeaturedProducts>
+            {allProducts?.products?.map((product, i) => (
+              <FeaturedProducts key={i} product={product}></FeaturedProducts>
             ))}
           </div>
         </Fragment>

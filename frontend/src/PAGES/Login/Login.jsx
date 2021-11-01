@@ -6,12 +6,15 @@ import { useDispatch, useSelector } from "react-redux";
 import { clearError, reqLoginUser } from "../../REDUX/Actions/userAction.js";
 import { useHistory } from "react-router";
 import { useAlert } from "react-alert";
+import Loader from "./../../Components/Loader/Loader";
 
 const Login = () => {
   const alert = useAlert();
   const history = useHistory();
   const dispatch = useDispatch();
-  const { isAuthenticated, error } = useSelector((state) => state.user);
+  const { isAuthenticated, error, loading } = useSelector(
+    (state) => state.user
+  );
   if (isAuthenticated) {
     history.push("/");
   }
@@ -38,34 +41,40 @@ const Login = () => {
   }, [alert, dispatch, error]);
   return (
     <Fragment>
-      <div className="login">
-        <form action="" onSubmit={handleSubmit}>
-          <h1 className="title">Login</h1>
-          <div className="inputSection">
-            <MdEmail />
-            <input
-              onChange={handleChange}
-              type="email"
-              name="email"
-              required
-              placeholder="Enter Email Address"
-            />
+      {loading ? (
+        <Loader />
+      ) : (
+        <Fragment>
+          <div className="login">
+            <form action="" onSubmit={handleSubmit}>
+              <h1 className="title">Login</h1>
+              <div className="inputSection">
+                <MdEmail />
+                <input
+                  onChange={handleChange}
+                  type="email"
+                  name="email"
+                  required
+                  placeholder="Enter Email Address"
+                />
+              </div>
+              <div className="inputSection">
+                <MdPassword />
+                <input
+                  onChange={handleChange}
+                  type="password"
+                  name="password"
+                  required
+                  placeholder="Enter Password"
+                />
+              </div>
+              <button onClick={handleSubmit} className="btn btn-submit">
+                Login
+              </button>
+            </form>
           </div>
-          <div className="inputSection">
-            <MdPassword />
-            <input
-              onChange={handleChange}
-              type="password"
-              name="password"
-              required
-              placeholder="Enter Password"
-            />
-          </div>
-          <button onClick={handleSubmit} className="btn btn-submit">
-            Login
-          </button>
-        </form>
-      </div>
+        </Fragment>
+      )}
     </Fragment>
   );
 };

@@ -3,6 +3,7 @@ const catchAsyncError = require('../Middleware/catchAsyncError.js');
 const User = require('../Models/userModel.js');
 const sendJwtToken = require('../Utils/sendAndSaveJtwToken.js');
 const crypto = require('crypto');
+const { cloudinary } = require('../Utils/cloudinary-config.js');
 const { sendResetPassEmail } = require('../Utils/JetmailEmail.js');
 
 /**
@@ -10,18 +11,25 @@ const { sendResetPassEmail } = require('../Utils/JetmailEmail.js');
  */
 
 exports.registerUser = catchAsyncError(async (req, res, next) => {
-  const { name, email, password, avatar } = req.body;
-  console.log('avatar.......', avatar)
+  const { name, email, password } = req.body
+  const userAvatar = await cloudinary.uploader.upload(req.body.avatar, {
+    foler: 'MERN-ECOM-AVATARS',
+    width: 150,
+    crop: "scale"
+  })
   const user = await User.create({
     name,
     email,
     password,
     avatar: {
-      public_id: avatar,
-      url: 'this is a sample url'
+      public_id: userAvatar.public_id,
+      url: userAvatar.secure_url
     }
   })
-
+  res.header('Access-Control-Allow-Credentials', true);
+  res.header('Access-Control-Allow-Origin', req.headers.origin);
+  res.header('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE,UPDATE,OPTIONS');
+  res.header('Access-Control-Allow-Headers', 'X-Requested-With, X-HTTP-Method-Override, Content-Type, Accept');
   sendJwtToken(user, 201, res)
 })
 
