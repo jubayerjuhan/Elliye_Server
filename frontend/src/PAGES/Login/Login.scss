@@ -6,6 +6,22 @@
   align-items: center;
   justify-content: center;
 
+  input[type="submit"] {
+    padding: 15px 30px;
+    border-radius: 30px;
+    background: crimson;
+    cursor: pointer;
+    border: 2px solid transparent;
+    color: white;
+    transition: all 500ms ease-in-out;
+    font-size: 1rem;
+    &:hover {
+      background: transparent;
+      border: 2px solid crimson;
+      color: crimson;
+    }
+  }
+
   form {
     display: flex;
     flex-direction: column;
@@ -18,7 +34,7 @@
       font-size: clamp(1rem, 5vh, 3rem);
       color: crimson;
     }
-    input {
+    .textInput {
       border: 1px solid lightgray;
       padding: 0 20px 0 50px;
       height: 50px;
@@ -33,20 +49,6 @@
       position: absolute;
       color: rgb(58, 55, 55);
       transform: translate(50%, 45%);
-    }
-    button {
-      padding: 15px 30px;
-      border-radius: 30px;
-      background: crimson;
-      border: 2px solid transparent;
-      color: white;
-      transition: all 500ms ease-in-out;
-      font-size: 1rem;
-      &:hover {
-        background: transparent;
-        border: 2px solid crimson;
-        color: crimson;
-      }
     }
   }
 }

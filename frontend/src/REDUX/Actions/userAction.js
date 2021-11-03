@@ -1,4 +1,4 @@
-import { Server, loginReq, regUserReq } from "../../Utils/Axios/axios.js";
+import { authAxios } from "../../Utils/Axios/axios.js";
 import { saveLocalStorage } from "../../Utils/LocalStorage/saveLocalStorage.js";
 
 export const reqLoginUser = (email, password) => async (dispatch) => {
@@ -9,7 +9,7 @@ export const reqLoginUser = (email, password) => async (dispatch) => {
    */
   try {
     dispatch({ type: "LOGIN_REQ" })
-    const { data } = await loginReq.post(`/api/v1/login`,
+    const { data } = await authAxios.post(`/api/v1/login`,
       { email, password }
     )
     saveLocalStorage("token", data.token, 2)
@@ -31,8 +31,7 @@ export const reqRegister = (userForm) => async (dispatch) => {
   try {
     dispatch({ type: "REG_REQ" })
     console.log('got form', userForm)
-
-    const { data } = await regUserReq.post(`/api/v1/register`,
+    const { data } = await authAxios.post(`/api/v1/register`,
       userForm,
     )
     saveLocalStorage("token", data.token, 2)
@@ -49,12 +48,44 @@ export const reqRegister = (userForm) => async (dispatch) => {
 export const loadUser = () => async (dispatch) => {
   try {
     dispatch({ type: "LOAD_USER_REQ" })
-    const { token, expiry } = JSON.parse(localStorage.getItem("token"))
-    console.log('got the value...', token)
-    const { data } = await Server.get(`/api/v1/me?token=${token}&expiry=${expiry}`)
+    const { data } = await authAxios.get(`/api/v1/me`)
     dispatch({ type: "LOAD_USER_SUCCESS", payload: data })
   } catch (error) {
     dispatch({ type: "LOAD_USER_FAILED", payload: error.message || error })
     console.log(error)
   }
+}
+
+
+//logout user
+
+export const logoutUser = () => (dispatch) => {
+  dispatch({ type: "LOGOUT_REQ" })
+  localStorage.removeItem("token")
+  dispatch({ type: "LOGOUT_SUCCESS" })
+}
+
+
+// edit user profile
+//sending data in form format
+export const editUserProfile = (editDataForm) => async (dispatch) => {
+  try {
+    if (localStorage.token) {
+      const { token, expiry } = JSON.parse(localStorage.token)
+      console.log(token, expiry)
+      dispatch({ type: "EDIT_PROFILE_REQ" })
+
+      const { data } = await authAxios.put(`http://localhost:4000/api/v1/update-userprofile`, editDataForm)
+      if (data.success) {
+        dispatch({ type: "EDIT_PROFILE_SUCCESS", payload: 'Profile Updated Successfullyy' })
+      }
+    }
+  } catch (error) {
+    dispatch({ type: "EDIT_PROFILE_FAILED", payload: error.message || error })
+
+  }
+}
+
+export const clearSuccess = () => async (dispatch) => {
+  dispatch({ type: "CLEAR_SUCCESS" })
 }

@@ -19,7 +19,6 @@ class ApiFeature {
      * *normal filter by category name
      */
     const queryCopy = { ...this.queryStr }
-    console.log(queryCopy)
     const fieldsToRemove = ['keyword', 'limit', 'page',]
     fieldsToRemove.forEach(field => delete queryCopy[field])
 
@@ -28,8 +27,6 @@ class ApiFeature {
      */
     let queryStr = JSON.stringify(queryCopy)
     queryStr = queryStr.replace(/\b(gt|gte|lte|lt)\b/g, (key) => `$${key}`)
-
-    console.log(queryStr);
 
     this.query = this.query.find(JSON.parse(queryStr))
     return this;

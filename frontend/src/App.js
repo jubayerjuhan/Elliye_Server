@@ -13,6 +13,9 @@ import store from './REDUX/Store.js';
 import { loadUser } from './REDUX/Actions/userAction.js';
 import { useSelector } from "react-redux";
 import SpeedDial from './Components/Navbar/SpeedDial.jsx';
+import MyProfile from './PAGES/MyProfile/MyProfile.jsx';
+import Protectedroute from "./Components/ProtectedRoute/Protectedroute";
+import EditProfile from "./PAGES/EditProfile/EditProfile";
 
 
 function App() {
@@ -24,16 +27,20 @@ function App() {
     <Router>
       <Navbar></Navbar>
       {isAuthenticated && <SpeedDial />}
-      <Route exact path='/' component={Homepage}></Route>
-      <Route path='/product/:id' component={ProductDetail}></Route>
-      <Route exact path='/products' component={Products}></Route>
-      <Route path='/products/:keyword' component={Products}></Route>
-      <Route exact path='/search' component={Search}></Route>
-      <Route exact path='/login' component={Login}></Route>
-      <Route exact path='/register' component={Register}></Route>
-      <Route path='*'>
-        404 Not Found
-      </Route>
+      <Switch>
+        <Route exact path='/' component={Homepage}></Route>
+        <Route path='/product/:id' component={ProductDetail}></Route>
+        <Route exact path='/products' component={Products}></Route>
+        <Route path='/products/:keyword' component={Products}></Route>
+        <Route exact path='/search' component={Search}></Route>
+        <Route exact path='/login' component={Login}></Route>
+        <Route exact path='/register' component={Register}></Route>
+        <Protectedroute exact path='/account' component={MyProfile}></Protectedroute>
+        <Protectedroute exact path='/profile/edit-profile' component={EditProfile}></Protectedroute>
+        <Route path='*'>
+          404 Not Found
+        </Route>
+      </Switch>
       <Footer />
     </Router >
 

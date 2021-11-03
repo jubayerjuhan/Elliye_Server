@@ -30,7 +30,53 @@ export const userReducer = (state = { user: {} }, action) => {
         user: null,
         loading: false,
         isAuthenticated: false,
-        error: action.payload
+      }
+    case "CLEAR_ERROR":
+      return {
+        ...state,
+        error: null,
+      }
+    case "LOGOUT_REQ":
+      return {
+        ...state,
+        loading: true
+      }
+    case "LOGOUT_SUCCESS":
+      return {
+        ...state,
+        loading: false,
+        user: null,
+        isAuthenticated: false,
+      }
+
+    default:
+      return state
+  }
+}
+
+
+export const profileReducer = (state = {}, action) => {
+  switch (action.type) {
+    case "EDIT_PROFILE_REQ":
+      return {
+        loading: true,
+        isUpdated: false,
+      }
+    case "EDIT_PROFILE_SUCCESS":
+      return {
+        loading: false,
+        isUpdated: true,
+        success: action.payload
+      }
+    case "EDIT_PROFILE_FAILED":
+      return {
+        loading: false,
+        isUpdated: false,
+      }
+    case "CLEAR_SUCCESS":
+      return {
+        ...state,
+        success: null,
       }
     case "CLEAR_ERROR":
       return {
@@ -39,6 +85,6 @@ export const userReducer = (state = { user: {} }, action) => {
       }
 
     default:
-      return state
+      return state;
   }
 }
