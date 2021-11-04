@@ -10,12 +10,15 @@ import Login from './PAGES/Login/Login.jsx';
 import Register from "./PAGES/Register/Register";
 import { Fragment, useEffect } from "react";
 import store from './REDUX/Store.js';
-import { loadUser } from './REDUX/Actions/userAction.js';
+import { loadUser, resetPassword } from './REDUX/Actions/userAction.js';
 import { useSelector } from "react-redux";
 import SpeedDial from './Components/Navbar/SpeedDial.jsx';
 import MyProfile from './PAGES/MyProfile/MyProfile.jsx';
 import Protectedroute from "./Components/ProtectedRoute/Protectedroute";
 import EditProfile from "./PAGES/EditProfile/EditProfile";
+import ChangePassword from "./PAGES/Change Password/ChangePassword";
+import ForgetPassword from "./PAGES/ForgetPassword/ForgetPassword";
+import PasswordReset from './PAGES/Password Reset/PasswordReset.jsx';
 
 
 function App() {
@@ -35,8 +38,12 @@ function App() {
         <Route exact path='/search' component={Search}></Route>
         <Route exact path='/login' component={Login}></Route>
         <Route exact path='/register' component={Register}></Route>
+        <Route exact path='/forget-password' component={ForgetPassword}></Route>
+        <Route exact path='/password/reset/:resetToken' component={PasswordReset}></Route>
         <Protectedroute exact path='/account' component={MyProfile}></Protectedroute>
         <Protectedroute exact path='/profile/edit-profile' component={EditProfile}></Protectedroute>
+        <Protectedroute exact path='/profile/change-password' component={ChangePassword}></Protectedroute>
+
         <Route path='*'>
           404 Not Found
         </Route>

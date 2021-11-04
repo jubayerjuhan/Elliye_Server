@@ -18,6 +18,7 @@ const Homepage = () => {
 
   const alert = useAlert();
   const dispatch = useDispatch();
+
   useEffect(() => {
     if (error) {
       alert.error(error);

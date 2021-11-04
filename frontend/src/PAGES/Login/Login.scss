@@ -6,6 +6,14 @@
   align-items: center;
   justify-content: center;
 
+  .paragraph {
+    margin-bottom: 10px;
+    a {
+      text-decoration: none;
+      color: crimson;
+    }
+  }
+
   input[type="submit"] {
     padding: 15px 30px;
     border-radius: 30px;
@@ -47,7 +55,7 @@
     svg {
       font-size: 1.7rem;
       position: absolute;
-      color: rgb(58, 55, 55);
+      color: crimson;
       transform: translate(50%, 45%);
     }
   }

@@ -5,6 +5,8 @@ import { useDispatch, useSelector } from "react-redux";
 import { useAlert } from "react-alert";
 import { useHistory } from "react-router";
 import Loader from "./../../Components/Loader/Loader";
+import "../Login/Login.css";
+import { Link } from "react-router-dom";
 
 const Register = () => {
   const alert = useAlert();
@@ -65,15 +67,16 @@ const Register = () => {
         <Fragment>
           <div className="login">
             <form action="" onSubmit={handleSubmit}>
-              <h1 className="title">Login</h1>
+              <h1 className="title">Register</h1>
               <div className="inputSection">
                 <MdOutlinePeopleOutline />
                 <input
+                  className="textInput"
                   onChange={handleChange}
-                  type="email"
+                  type="name"
                   name="name"
                   required
-                  placeholder="Enter Email Address"
+                  placeholder="Enter Name"
                 />
               </div>
               <div className="inputSection">
@@ -81,6 +84,7 @@ const Register = () => {
                 <input
                   onChange={handleChange}
                   type="email"
+                  className="textInput"
                   name="email"
                   required
                   placeholder="Enter Email Address"
@@ -89,6 +93,7 @@ const Register = () => {
               <div className="inputSection">
                 <MdPassword />
                 <input
+                  className="textInput"
                   onChange={handleChange}
                   type="password"
                   name="password"
@@ -97,17 +102,23 @@ const Register = () => {
                 />
               </div>
               <div className="inputSection">
-                <MdPassword />
                 <input
                   onChange={handleChange}
+                  className="textInput"
                   type="file"
                   name="avatar"
                   required
                 />
               </div>
-              <button onClick={handleSubmit} className="btn btn-submit">
-                Login
-              </button>
+              <p className="paragraph">
+                No, <Link to="/login">Already Have a Account?</Link>
+              </p>
+              <input
+                onClick={handleSubmit}
+                type="submit"
+                value="Submit"
+                className="btn btn-submit"
+              />
             </form>
           </div>
         </Fragment>

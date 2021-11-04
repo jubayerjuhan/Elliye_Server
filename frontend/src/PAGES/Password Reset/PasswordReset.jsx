@@ -1,45 +1,51 @@
 import React, { Fragment, useEffect, useState } from "react";
-import { MdEmail, MdPassword } from "react-icons/md";
-
-import "./Login.css";
+import { MdLock, MdLockOutline, MdVpnKey } from "react-icons/md";
+import {
+  changePassword,
+  clearError,
+  loadUser,
+  resetPassword,
+} from "./../../REDUX/Actions/userAction";
 import { useDispatch, useSelector } from "react-redux";
-import { clearError, reqLoginUser } from "../../REDUX/Actions/userAction.js";
-import { useHistory } from "react-router";
 import { useAlert } from "react-alert";
+import { useHistory, useParams } from "react-router";
 import Loader from "./../../Components/Loader/Loader";
-import { Link } from "react-router-dom";
 
-const Login = () => {
+const PasswordReset = () => {
   const alert = useAlert();
   const history = useHistory();
+  const { resetToken } = useParams();
   const dispatch = useDispatch();
-  const { isAuthenticated, error, loading } = useSelector(
-    (state) => state.user
+  const { isUpdated, error, loading } = useSelector(
+    (state) => state.changePassword
   );
-  if (isAuthenticated) {
-    history.push("/");
-  }
+
   const initialState = {
-    email: "",
     password: "",
+    confirmPassword: "",
   };
-  const [loginCredentials, setLoginCredentials] = useState(initialState);
+  const [passwords, setPasswords] = useState(initialState);
+
   const handleChange = (e) => {
-    setLoginCredentials({
-      ...loginCredentials,
-      [e.target.name]: e.target.value,
-    });
+    setPasswords({ ...passwords, [e.target.name]: e.target.value });
   };
+  console.log(passwords);
+
   const handleSubmit = (e) => {
     e.preventDefault();
-    dispatch(reqLoginUser(loginCredentials.email, loginCredentials.password));
+    dispatch(resetPassword(passwords, resetToken));
   };
+
   useEffect(() => {
-    dispatch(clearError());
     if (error) {
       alert.error(error);
+      dispatch(clearError());
     }
-  }, [alert, dispatch, error]);
+    if (isUpdated) {
+      history.push("/");
+      alert.success("Password Updated Successfully");
+    }
+  }, [alert, dispatch, history, isUpdated, error]);
   return (
     <Fragment>
       {loading ? (
@@ -48,32 +54,30 @@ const Login = () => {
         <Fragment>
           <div className="login">
             <form action="" onSubmit={handleSubmit}>
-              <h1 className="title">Login</h1>
+              <h1 className="title">Reset Password</h1>
               <div className="inputSection">
-                <MdEmail />
-                <input
-                  onChange={handleChange}
-                  type="email"
-                  className="textInput"
-                  name="email"
-                  required
-                  placeholder="Enter Email Address"
-                />
-              </div>
-              <div className="inputSection">
-                <MdPassword />
+                <MdLockOutline />
                 <input
                   onChange={handleChange}
                   type="password"
                   className="textInput"
                   name="password"
                   required
-                  placeholder="Enter Password"
+                  placeholder="New Password"
                 />
               </div>
-              <p className="paragraph">
-                <Link to="/forget-password">Forget Password</Link>
-              </p>
+              <div className="inputSection">
+                <MdLock />
+                <input
+                  className="textInput"
+                  onChange={handleChange}
+                  type="password"
+                  name="confirmPassword"
+                  required
+                  placeholder="Confirm Password"
+                />
+              </div>
+
               <input
                 onClick={handleSubmit}
                 type="submit"
@@ -88,4 +92,4 @@ const Login = () => {
   );
 };
 
-export default Login;
+export default PasswordReset;

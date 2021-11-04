@@ -81,7 +81,7 @@ exports.forgetPassword = catchAsyncError(async (req, res, next) => {
    */
   const resetToken = await user.getResetPasswordToken()
   await user.save({ validateBeforeSave: false })
-  const resetPasswordUrl = `${req.protocol}://${req.get('host')}/api/v1/password/reset/${resetToken}`
+  const resetPasswordUrl = `${process.env.FRONTEND_SITE_NAME}/password/reset/${resetToken}`
   const message = `Your Password Reset token is : \n\n ${resetPasswordUrl}\n\n please ignore this if you did not make this req`
 
   try {
@@ -101,6 +101,7 @@ exports.forgetPassword = catchAsyncError(async (req, res, next) => {
  * !reset password
  */
 exports.resetPassword = catchAsyncError(async (req, res, next) => {
+  console.log(req.body)
   const resetPasswordToken = crypto
     .createHash("sha256")
     .update(req.params.token)
@@ -113,7 +114,7 @@ exports.resetPassword = catchAsyncError(async (req, res, next) => {
   if (!user) return next(new ErrorHandler('Invalid Password Reset Token or Token Session Expired', 400))
   if (req.body.password !== req.body.confirmPassword) return next(new ErrorHandler("Password Doesn't Match", 403))
 
-  user.password = req.body.password
+  user.password = req.body.confirmPassword
   user.resetPasswordToken = null;
   user.resetPasswordExpire = null;
   await user.save()
@@ -144,7 +145,6 @@ exports.changePassword = catchAsyncError(async (req, res, next) => {
  */
 exports.getUserProfile = catchAsyncError(async (req, res, next) => {
   const user = await User.findById(req.user.id)
-
   res.status(200).json({
     success: true,
     user

@@ -83,6 +83,46 @@ export const profileReducer = (state = {}, action) => {
         ...state,
         error: null,
       }
+    default:
+      return state;
+  }
+}
+
+export const changePasswordReducer = (state = {}, action) => {
+  switch (action.type) {
+    case "CHANGE_PASSWORD_REQ":
+    case "FORGET_PASSWORD_REQ":
+    case "RESET_PASSWORD_REQ":
+      return {
+        ...state,
+        loading: true,
+        isUpdated: false,
+
+      }
+    case "CHANGE_PASSWORD_SUCCESS":
+    case "FORGET_PASSWORD_SUCCESS":
+    case "RESET_PASSWORD_SUCCESS":
+      return {
+        ...state,
+        loading: false,
+        isUpdated: action.payload,
+      }
+    case "CHANGE_PASSWORD_FAILED":
+    case "FORGET_PASSWORD_FAILED":
+    case "RESET_PASSWORD_FAILED":
+      return {
+        ...state,
+        loading: false,
+        isUpdated: false,
+        error: action.payload
+      }
+    case "CLEAR_ERRORS":
+      return {
+        ...state,
+        loading: false,
+        isUpdated: false,
+        error: null,
+      }
 
     default:
       return state;

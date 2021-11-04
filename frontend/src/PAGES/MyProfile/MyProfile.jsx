@@ -3,6 +3,7 @@ import { Fragment } from "react";
 import { useSelector } from "react-redux";
 import "./myprofile.css";
 import { useHistory } from "react-router";
+import { Link } from "react-router-dom";
 
 const MyProfile = () => {
   const history = useHistory();
@@ -35,10 +36,14 @@ const MyProfile = () => {
               <p className="subtitle">{user.createdAt || "01-01-2021"}</p>
             </div>
             <div className="infoChild">
-              <button className="btn-submit">Edit Profile</button>
+              <Link to="/profile/change-password">
+                <button className="btn-submit">Change Password</button>
+              </Link>
             </div>
             <div className="infoChild">
-              <button className="btn-submit">Edit Profile</button>
+              <Link to="/orders/">
+                <button className="btn-submit">Edit Profile</button>
+              </Link>
             </div>
           </div>
         </div>

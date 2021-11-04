@@ -33,6 +33,11 @@
           align-items: center;
 }
 
+.profileWrapper a {
+  text-decoration: none;
+  color: white;
+}
+
 .profileWrapper .pageTitle {
   margin: 20px 0;
   padding-bottom: 10px;

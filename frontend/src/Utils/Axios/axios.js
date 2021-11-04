@@ -18,9 +18,9 @@ if (localStorage.token) {
     Authorization: `Bearer ${localStorage.token ? token : null
       } ${localStorage.token && expiry
       } `,
-    "Content-Type": "multipart/form-data"
   }
 }
+
 
 export const authAxios = axios.create({
   baseURL: 'http://localhost:4000',
@@ -35,6 +35,6 @@ export const formData = axios.create({
   baseURL: 'http://localhost:4000',
   headers: {
     "Authorization": `Bearer ${auth}`,
-    // "Content-Type": "multipart/form-data",
+    "Content-Type": "application/json",
   }
 });

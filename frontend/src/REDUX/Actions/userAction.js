@@ -1,5 +1,6 @@
 import { authAxios } from "../../Utils/Axios/axios.js";
 import { saveLocalStorage } from "../../Utils/LocalStorage/saveLocalStorage.js";
+import axios from "axios";
 
 export const reqLoginUser = (email, password) => async (dispatch) => {
 
@@ -22,7 +23,7 @@ export const reqLoginUser = (email, password) => async (dispatch) => {
 }
 
 export const clearError = () => async (dispatch) => {
-  dispatch({ type: "CLEAR_ERROR" })
+  dispatch({ type: "CLEAR_ERRORS" })
 }
 /**
  * ?Regiester User Actions
@@ -75,7 +76,7 @@ export const editUserProfile = (editDataForm) => async (dispatch) => {
       console.log(token, expiry)
       dispatch({ type: "EDIT_PROFILE_REQ" })
 
-      const { data } = await authAxios.put(`http://localhost:4000/api/v1/update-userprofile`, editDataForm)
+      const { data } = await authAxios.put(`/api/v1/update-userprofile`, editDataForm)
       if (data.success) {
         dispatch({ type: "EDIT_PROFILE_SUCCESS", payload: 'Profile Updated Successfullyy' })
       }
@@ -86,6 +87,47 @@ export const editUserProfile = (editDataForm) => async (dispatch) => {
   }
 }
 
-export const clearSuccess = () => async (dispatch) => {
-  dispatch({ type: "CLEAR_SUCCESS" })
+export const changePassword = (password) => async (dispatch) => {
+  try {
+    dispatch({ type: 'CHANGE_PASSWORD_REQ' })
+    const { data } = await authAxios.put(`/api/v1/change-password`, password)
+    dispatch({ type: 'CHANGE_PASSWORD_SUCCESS', payload: data.success })
+
+  } catch (error) {
+    console.log(error.response.data.message)
+    dispatch({ type: "CHANGE_PASSWORD_FAILED", payload: error.response.data.message })
+  }
+}
+
+/**
+ * ? forget password
+ */
+export const forgetPassword = (email) => async (dispatch) => {
+  try {
+    dispatch({ type: 'FORGET_PASSWORD_REQ' })
+    const { data } = await authAxios.post(`/api/v1/forget-password`, { email })
+    dispatch({ type: 'FORGET_PASSWORD_SUCCESS', payload: data.success })
+
+  } catch (error) {
+    console.log(error.response.data.message)
+    dispatch({ type: "FORGET_PASSWORD_FAILED", payload: error.response.data.message })
+  }
+}
+
+/** 
+ * reset password 
+*/
+export const resetPassword = (passwords, token) => async (dispatch) => {
+  try {
+    await dispatch({ type: 'RESET_PASSWORD_REQ' })
+    const { data } = await authAxios.put(`/api/v1/reset-password/${token}`, passwords)
+    saveLocalStorage('token', data.token, 2)
+    await dispatch({ type: 'RESET_PASSWORD_SUCCESS', payload: data.success })
+    await dispatch(loadUser());
+
+
+  } catch (error) {
+    console.log(error.response.data.message)
+    dispatch({ type: "RESET_PASSWORD_FAILED", payload: error.response.data.message })
+  }
 }

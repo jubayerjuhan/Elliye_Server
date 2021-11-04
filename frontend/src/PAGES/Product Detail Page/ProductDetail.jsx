@@ -1,4 +1,4 @@
-import React, { Fragment, useEffect } from "react";
+import React, { Fragment, useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useParams } from "react-router";
 import {
@@ -20,6 +20,7 @@ const ProductDetail = () => {
   const alert = useAlert();
   const dispatch = useDispatch();
   const { id } = useParams();
+  const [quantity, setQuantity] = useState(1);
 
   useEffect(() => {
     if (error) {
@@ -38,8 +39,19 @@ const ProductDetail = () => {
     activeColor: "#ffd700",
   };
 
-  const handlePlus = () => {};
+  const increaseQuantity = (e) => {
+    if (quantity >= singleProduct.stock) {
+      return;
+    }
+    setQuantity(quantity + 1);
+  };
 
+  const decreaseQuantity = () => {
+    if (quantity <= 1) {
+      return;
+    }
+    setQuantity(quantity - 1);
+  };
   return (
     <Fragment>
       <MetaData title={`${singleProduct?.name}`} />
@@ -71,9 +83,19 @@ const ProductDetail = () => {
               <div className="addCartSection">
                 <h1 className="price">${singleProduct?.price}</h1>
                 <div className="quantitySelector">
-                  <button className="btn minusButton">-</button>
-                  <input type="number" className="quantity" defaultValue="1" />
-                  <button className="btn plusButton" onClick={handlePlus}>
+                  <button
+                    className="btn minusButton"
+                    onClick={decreaseQuantity}
+                  >
+                    -
+                  </button>
+                  <input
+                    type="number"
+                    className="quantity"
+                    value={quantity}
+                    readOnly
+                  />
+                  <button className="btn plusButton" onClick={increaseQuantity}>
                     +
                   </button>
                 </div>

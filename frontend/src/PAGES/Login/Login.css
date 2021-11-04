@@ -16,6 +16,15 @@
           justify-content: center;
 }
 
+.login .paragraph {
+  margin-bottom: 10px;
+}
+
+.login .paragraph a {
+  text-decoration: none;
+  color: crimson;
+}
+
 .login input[type="submit"] {
   padding: 15px 30px;
   border-radius: 30px;
@@ -73,7 +82,7 @@
 .login form svg {
   font-size: 1.7rem;
   position: absolute;
-  color: #3a3737;
+  color: crimson;
   -webkit-transform: translate(50%, 45%);
           transform: translate(50%, 45%);
 }
