@@ -12,6 +12,7 @@ import ReviewShow from "./../../Components/ReviewShowingComponent/ReviewShow";
 import Loader from "./../../Components/Loader/Loader";
 import { useAlert } from "react-alert";
 import MetaData from "./../../Components/MetaData/MetaData";
+import { addToCart } from "../../REDUX/Actions/cartAction.js";
 
 const ProductDetail = () => {
   const { singleProduct, error, loading } = useSelector(
@@ -51,6 +52,11 @@ const ProductDetail = () => {
       return;
     }
     setQuantity(quantity - 1);
+  };
+
+  const handleAddToCart = () => {
+    dispatch(addToCart(singleProduct._id, quantity));
+    alert.success("Item Added To Cart");
   };
   return (
     <Fragment>
@@ -99,7 +105,10 @@ const ProductDetail = () => {
                     +
                   </button>
                 </div>
-                <button className="btn-big addToCart"> Add To Cart</button>
+                <button className="btn-big addToCart" onClick={handleAddToCart}>
+                  {" "}
+                  Add To Cart
+                </button>
                 <h3 className="status">
                   Status : {""}
                   <b className={singleProduct?.stock > 0 ? "green" : "red"}>

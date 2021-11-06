@@ -22,6 +22,7 @@ const Navbar = () => {
         link4Url="/contact-us"
         link1Color="#fff"
         link1Family="Inter"
+        cartIconUrl="/cart"
       ></ReactNavbar>
     </Fragment>
   );

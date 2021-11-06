@@ -1,6 +1,5 @@
 import * as React from "react";
 import SpeedDial from "@mui/material/SpeedDial";
-import SpeedDialIcon from "@mui/material/SpeedDialIcon";
 import SpeedDialAction from "@mui/material/SpeedDialAction";
 import "./speeddial.css";
 import {
@@ -9,6 +8,7 @@ import {
   RiFileList3Line,
   RiLogoutCircleLine,
 } from "react-icons/ri";
+import { MdShoppingCart } from "react-icons/md";
 import { useDispatch, useSelector } from "react-redux";
 import { useHistory } from "react-router";
 import { logoutUser } from "../../REDUX/Actions/userAction.js";
@@ -19,7 +19,16 @@ export default function SpeedDialBasic() {
   const dispatch = useDispatch();
   const alert = useAlert();
   const { user } = useSelector((state) => state.user);
+  const { cartItems } = useSelector((state) => state.cart);
   const actions = [
+    {
+      icon: (
+        <MdShoppingCart
+          style={{ color: cartItems.length > 0 ? "crimson" : "unset" }}
+        />
+      ),
+      name: `Cart (${cartItems.length})`,
+    },
     { icon: <RiFileList3Line />, name: "Orders" },
     { icon: <RiAccountCircleFill />, name: "Account" },
     { icon: <RiLogoutCircleLine />, name: "Logout" },
@@ -35,6 +44,8 @@ export default function SpeedDialBasic() {
       dispatch(logoutUser());
       history.push("/");
       alert.success("Logged Out Successfully");
+    } else if (name.includes("Cart")) {
+      history.push("/cart");
     } else {
       history.push(`/${name.toLowerCase()}`);
     }
@@ -51,9 +62,10 @@ export default function SpeedDialBasic() {
       >
         {actions.map((action, index) => (
           <SpeedDialAction
-            key={Math.floor(Math.random() * 10)}
+            key={action.name}
             icon={action.icon}
             tooltipTitle={action.name}
+            tooltipOpen={window.innerWidth <= 600 ? true : false}
             onClick={() => handleClick(action.name)}
           />
         ))}

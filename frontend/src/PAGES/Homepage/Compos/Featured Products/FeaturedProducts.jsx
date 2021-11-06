@@ -4,9 +4,10 @@ import ReactStars from "react-rating-stars-component";
 import "./FeatureProduct.css";
 
 const FeaturedProducts = ({ product }) => {
+  console.log(product);
   const options = {
     productcount: 5,
-    value: 4.5,
+    value: product.ratings,
     size: 24,
     isHalf: true,
     edit: false,

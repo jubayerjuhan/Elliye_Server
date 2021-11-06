@@ -9,15 +9,17 @@ import { useAlert } from "react-alert";
 import Loader from "./../../Components/Loader/Loader";
 import { Link } from "react-router-dom";
 
-const Login = () => {
+const Login = ({ location }) => {
   const alert = useAlert();
   const history = useHistory();
   const dispatch = useDispatch();
   const { isAuthenticated, error, loading } = useSelector(
     (state) => state.user
   );
+  console.log("location", location);
+  const redirect = location.search ? location.search.split("=")[1] : "/";
   if (isAuthenticated) {
-    history.push("/");
+    history.push(redirect);
   }
   const initialState = {
     email: "",
