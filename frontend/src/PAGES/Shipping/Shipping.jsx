@@ -2,7 +2,16 @@ import React, { useState } from "react";
 import { Fragment } from "react";
 import "./shipping.css";
 import { IoPeopleCircleOutline } from "react-icons/io5";
-import { Country, State, City } from "country-state-city";
+import { BiStreetView } from "react-icons/bi";
+import { FaCity, FaGlobeEurope } from "react-icons/fa";
+import { ImOffice } from "react-icons/im";
+import { BsSignpostFill, BsPhone } from "react-icons/bs";
+import { Country, State } from "country-state-city";
+import StepperComponent from "./../../Utils/Stepper/Stepper";
+import { useDispatch } from "react-redux";
+import { saveShippingInfo } from "./../../REDUX/Actions/cartAction";
+import { useAlert } from "react-alert";
+import { useHistory } from "react-router";
 
 const initialState = {
   country: "",
@@ -14,17 +23,36 @@ const initialState = {
   phoneNumber: "",
 };
 const Shipping = () => {
-  const [shippingInfo, setShippingInfo] = useState(initialState);
+  const history = useHistory();
+  const alert = useAlert();
+  const dispatch = useDispatch();
+  const [shippingInformation, setShippingInformation] = useState(initialState);
+
   const handleChange = (e) => {
-    setShippingInfo({ ...shippingInfo, [e.target.name]: e.target.value });
+    setShippingInformation({
+      ...shippingInformation,
+      [e.target.name]: e.target.value,
+    });
   };
-  console.log(shippingInfo);
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+
+    if (shippingInformation.phoneNumber.length < 11) {
+      alert.error("Your Phone Number Must Be 11 Digit Long");
+    } else {
+      dispatch(saveShippingInfo(shippingInformation));
+      history.push("/order/confirmation");
+    }
+  };
   return (
     <Fragment>
+      <StepperComponent activeStep={0} />
+
       <div className="shippingPage">
         <div className="shippingDetailsContainer">
           <h3>Shipping Details</h3>
-          <form action="">
+          <form action="" onSubmit={handleSubmit}>
             <div className="formInput">
               <IoPeopleCircleOutline />
               <input
@@ -36,7 +64,7 @@ const Shipping = () => {
               />
             </div>
             <div className="formInput">
-              <IoPeopleCircleOutline />
+              <BiStreetView />
               <input
                 type="text"
                 placeholder="Street"
@@ -46,7 +74,7 @@ const Shipping = () => {
               />
             </div>
             <div className="formInput">
-              <IoPeopleCircleOutline />
+              <FaCity />
               <input
                 type="text"
                 placeholder="City"
@@ -56,7 +84,7 @@ const Shipping = () => {
               />
             </div>
             <div className="formInput">
-              <IoPeopleCircleOutline />
+              <BsSignpostFill />
               <input
                 type="text"
                 placeholder="Zip Code"
@@ -66,7 +94,7 @@ const Shipping = () => {
               />
             </div>
             <div className="formInput">
-              <IoPeopleCircleOutline />
+              <BsPhone />
               <input
                 type="number"
                 placeholder="Phone Number"
@@ -76,12 +104,12 @@ const Shipping = () => {
               />
             </div>
             <div className="formInput">
-              <IoPeopleCircleOutline />
+              <FaGlobeEurope />
               <select
                 name="country"
                 onChange={handleChange}
                 required={true}
-                value={shippingInfo.country || ""}
+                value={shippingInformation.country || ""}
               >
                 {Country &&
                   Country.getAllCountries().map((item) => (
@@ -91,12 +119,12 @@ const Shipping = () => {
                   ))}
               </select>
             </div>
-            {shippingInfo.country && (
+            {shippingInformation.country && (
               <div className="formInput">
-                <IoPeopleCircleOutline />
+                <ImOffice />
                 <select name="state" onChange={handleChange} required={true}>
                   {State &&
-                    State.getStatesOfCountry(shippingInfo.country).map(
+                    State.getStatesOfCountry(shippingInformation.country).map(
                       (item) => (
                         <option key={item.isoCode} value={item.isoCode}>
                           {item.name}
@@ -106,7 +134,7 @@ const Shipping = () => {
                 </select>
               </div>
             )}
-            <input className="submitBtn" type="submit" value="Save" />
+            <input className="submitBtn" type="submit" value="Submit" />
           </form>
         </div>
       </div>

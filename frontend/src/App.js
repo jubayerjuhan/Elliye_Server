@@ -21,6 +21,7 @@ import ForgetPassword from "./PAGES/ForgetPassword/ForgetPassword";
 import PasswordReset from './PAGES/Password Reset/PasswordReset.jsx';
 import Cart from "./PAGES/Cart/Cart";
 import Shipping from "./PAGES/Shipping/Shipping";
+import ConfirmOrder from './PAGES/Confirm Order/ConfirmOrder.jsx';
 
 
 function App() {
@@ -47,6 +48,7 @@ function App() {
         <Protectedroute exact path='/profile/edit-profile' component={EditProfile}></Protectedroute>
         <Protectedroute exact path='/profile/change-password' component={ChangePassword}></Protectedroute>
         <Protectedroute exact path='/shipping' component={Shipping}></Protectedroute>
+        <Protectedroute exact path='/order/confirmation' component={ConfirmOrder}></Protectedroute>
         <Route path='*'>
           404 Not Found
         </Route>

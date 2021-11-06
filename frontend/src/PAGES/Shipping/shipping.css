@@ -53,6 +53,7 @@
   color: white;
   border-radius: 10px;
   border: none;
+  cursor: pointer;
 }
 
 .shippingPage .shippingDetailsContainer form .formInput svg {
