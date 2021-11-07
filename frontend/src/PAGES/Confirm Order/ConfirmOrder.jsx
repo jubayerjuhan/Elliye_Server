@@ -3,12 +3,13 @@ import { Fragment } from "react";
 import CustomizedSteppers from "./../../Utils/Stepper/Stepper";
 import "./confirmOrder.css";
 
-import { useDispatch, useSelector } from "react-redux";
+import { useSelector } from "react-redux";
+import { useHistory } from "react-router";
 
 const ConfirmOrder = () => {
+  const history = useHistory();
   const { shippingInfo, cartItems } = useSelector((state) => state.cart);
-  const { name, phoneNumber, street, city, state, country, zipcode } =
-    shippingInfo;
+  const { name, phoneNumber, street, city, country, zipcode } = shippingInfo;
   const address = `${street}, ${city} #${zipcode}, ${country}`;
 
   const subtotal = cartItems.reduce(
@@ -21,6 +22,11 @@ const ConfirmOrder = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
+    sessionStorage.setItem(
+      "orderInfo",
+      JSON.stringify({ subtotal, shippingCharge, gst, totalPrice })
+    );
+    history.push("/order/payment");
   };
   return (
     <Fragment>
@@ -81,7 +87,9 @@ const ConfirmOrder = () => {
             <p>Total</p>
             <span>${totalPrice}</span>
           </div>
-          <button className="checkoutBtn">Checkout</button>
+          <button onClick={handleSubmit} className="checkoutBtn">
+            Procceed To Payment
+          </button>
         </div>
       </div>
     </Fragment>

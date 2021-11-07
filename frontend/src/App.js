@@ -22,13 +22,25 @@ import PasswordReset from './PAGES/Password Reset/PasswordReset.jsx';
 import Cart from "./PAGES/Cart/Cart";
 import Shipping from "./PAGES/Shipping/Shipping";
 import ConfirmOrder from './PAGES/Confirm Order/ConfirmOrder.jsx';
+import Payment from "./PAGES/Payment/Payment";
+import { Elements } from '@stripe/react-stripe-js';
+import { loadStripe } from '@stripe/stripe-js';
+import { authAxios } from './Utils/Axios/axios.js';
+import { useState } from 'react';
 
 
 function App() {
+  const [stripeKey, setStripeKey] = useState()
   const { isAuthenticated } = useSelector(state => state.user)
   useEffect(() => {
     store.dispatch(loadUser());
+    const loadStripeKey = async () => {
+      const { data } = await authAxios.get(`/api/v1/getStipePubKey`)
+      setStripeKey(data.key)
+    }
+    loadStripeKey()
   }, [])
+  console.log(stripeKey)
   return (
     <Router>
       <Navbar></Navbar>
@@ -49,6 +61,11 @@ function App() {
         <Protectedroute exact path='/profile/change-password' component={ChangePassword}></Protectedroute>
         <Protectedroute exact path='/shipping' component={Shipping}></Protectedroute>
         <Protectedroute exact path='/order/confirmation' component={ConfirmOrder}></Protectedroute>
+        {stripeKey &&
+          <Elements stripe={loadStripe(stripeKey)}>
+            <Protectedroute exact path='/order/payment' component={Payment}></Protectedroute>
+          </Elements>
+        }
         <Route path='*'>
           404 Not Found
         </Route>

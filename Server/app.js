@@ -18,11 +18,13 @@ app.use(cors())
 const product = require('./Routes/productroute.js')
 const user = require('./Routes/userRoute.js')
 const order = require('./Routes/orderRoutes.js')
+const payment = require('./Routes/paymentRoute.js')
 
 //use routes
 app.use('/api/v1', product)
 app.use('/api/v1', user)
 app.use('/api/v1', order)
+app.use('/api/v1', payment)
 
 //middleware for error 
 app.use(errorMiddleWare)
