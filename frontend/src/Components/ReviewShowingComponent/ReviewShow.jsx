@@ -8,7 +8,6 @@ import ReactStars from "react-rating-stars-component";
 const ReviewShow = ({ reviews }) => {
   const options = {
     productcount: 5,
-    value: 4.5,
     size: 24,
     isHalf: true,
     edit: false,
@@ -20,7 +19,7 @@ const ReviewShow = ({ reviews }) => {
     { width: 768, itemsToShow: 3 },
     { width: 1200, itemsToShow: 3 },
   ];
-
+  console.log("revs", reviews);
   return (
     <div className="reviews">
       <div className="carousel-wrapper">
@@ -35,7 +34,7 @@ const ReviewShow = ({ reviews }) => {
                   textSizeRatio={1.75}
                 />
                 <h5>{review?.name}</h5>
-                <ReactStars {...options}></ReactStars>
+                <ReactStars {...options} value={review.rating}></ReactStars>
                 <p>{review?.comment}</p>
               </div>
             </Item>

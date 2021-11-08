@@ -27,6 +27,9 @@ import { Elements } from '@stripe/react-stripe-js';
 import { loadStripe } from '@stripe/stripe-js';
 import { authAxios } from './Utils/Axios/axios.js';
 import { useState } from 'react';
+import OrderSuccess from './PAGES/Order Success/Ordersuccess';
+import MyOrders from './PAGES/View All Orders/MyOrders.jsx';
+import OrderDetails from './PAGES/OrderDetail/OrderDetail'
 
 
 function App() {
@@ -61,6 +64,9 @@ function App() {
         <Protectedroute exact path='/profile/change-password' component={ChangePassword}></Protectedroute>
         <Protectedroute exact path='/shipping' component={Shipping}></Protectedroute>
         <Protectedroute exact path='/order/confirmation' component={ConfirmOrder}></Protectedroute>
+        <Protectedroute exact path='/order/success' component={OrderSuccess}></Protectedroute>
+        <Protectedroute exact path='/orders' component={MyOrders}></Protectedroute>
+        <Protectedroute exact path='/orders/:id' component={OrderDetails}></Protectedroute>
         {stripeKey &&
           <Elements stripe={loadStripe(stripeKey)}>
             <Protectedroute exact path='/order/payment' component={Payment}></Protectedroute>

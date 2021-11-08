@@ -64,3 +64,34 @@ export const singleProductReducer = (state = {}, action) => {
       }
   }
 }
+
+
+export const addReviewReducer = (state = {}, action) => {
+  switch (action.type) {
+    case 'ADD_REVIEW_REQ':
+      return {
+        ...state,
+        loading: true,
+      }
+    case 'ADD_REVIEW_SUCCESS':
+      return {
+        ...state,
+        loading: false,
+        isAdded: action.payload,
+      }
+    case 'ADD_REVIEW_RESET':
+      return {
+        ...state,
+        isAdded: null,
+      }
+    case 'ADD_REVIEW_FAILED':
+      return {
+        ...state,
+        loading: false,
+        error: action.payload
+      }
+
+    default:
+      return state;
+  }
+}

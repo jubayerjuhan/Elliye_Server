@@ -1,7 +1,6 @@
 const catchAsyncError = require('../Middleware/catchAsyncError.js')
 const Order = require('../Models/orderModel.js');
 const Product = require('../Models/productmodel.js');
-
 const ErrorHandler = require('../Utils/errorHandler.js');
 
 /**
@@ -37,10 +36,11 @@ exports.getSingleOrder = catchAsyncError(async (req, res, next) => {
   const order = await Order.findById(req.params.id).populate("user", "name email")
   if (!order) return next(new ErrorHandler('Order not found', 404))
 
-  res.status(200).json({
-    success: true,
-    order
-  })
+  res.status(200)
+    .json({
+      success: true,
+      order
+    })
 })
 
 /**

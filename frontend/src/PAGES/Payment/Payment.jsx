@@ -16,10 +16,12 @@ import {
 import "./payment.css";
 import { useAlert } from "react-alert";
 import { authAxios } from "../../Utils/Axios/axios.js";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { useHistory } from "react-router";
+import { clearErrors, createOrder } from "./../../REDUX/Actions/orderAction";
 
 const Payment = () => {
+  const dispatch = useDispatch();
   const history = useHistory();
   const alert = useAlert();
   const elements = useElements();
@@ -28,12 +30,22 @@ const Payment = () => {
   const paymentAmount = JSON.parse(sessionStorage.orderInfo);
   const paybtn = useRef(null);
   const { user } = useSelector((state) => state.user);
-  const { shippingInfo } = useSelector((state) => state.cart);
+  const { shippingInfo, cartItems } = useSelector((state) => state.cart);
+  const { error } = useSelector((state) => state.orders);
 
   const paymentData = {
     amount: Math.round(paymentAmount.totalPrice * 100),
   };
-
+  const orderData = {
+    shippingInfo,
+    orderItems: cartItems,
+    user: user._id,
+    paidAt: Date.now(),
+    paymentInfo: "",
+    priceBreakdown: sessionStorage.orderInfo
+      ? JSON.parse(sessionStorage.orderInfo)
+      : "",
+  };
   const submitHandler = async (e) => {
     e.preventDefault();
     paybtn.current.disbled = true;
@@ -72,9 +84,14 @@ const Payment = () => {
       } else {
         if (result.paymentIntent.status === "succeeded") {
           alert.success("Payment Successful");
-
-          //place order
-          history.push("/orders");
+          orderData.paymentInfo = {
+            id: result.paymentIntent.id,
+            status: result.paymentIntent.status,
+          };
+          dispatch(createOrder(orderData));
+          if (!error) {
+            history.push("/order/success");
+          }
         } else {
           paybtn.current.disbled = false;
           setIsLoading(false);
@@ -86,9 +103,15 @@ const Payment = () => {
       paybtn.current.disbled = false;
       setIsLoading(false);
       console.log(error);
-      // alert.error(error.response.data.message || error.message || error);
+      alert.error(error.response.data.message || error.message || error);
     }
   };
+  useEffect(() => {
+    if (error) {
+      alert.error(error);
+      dispatch(clearErrors());
+    }
+  }, [error, dispatch, alert]);
   return (
     <Fragment>
       <MetaData title="Payment" />

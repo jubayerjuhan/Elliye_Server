@@ -1,4 +1,4 @@
-import { Server } from "./../../Utils/Axios/axios";
+import { authAxios, Server } from "./../../Utils/Axios/axios";
 export const getAllProducts = (keyword = '', page = 1, priceValue = [0, 25000], category, rating = 0) => async (dispatch) => {
   try {
     dispatch({ type: 'ALL_PRODUCTS_REQ' })
@@ -39,5 +39,15 @@ export const getSingleProduct = (id) => async (dispatch) => {
       type: 'SINGLE_PRODUCT_FAIL',
       payload: error
     })
+  }
+}
+
+export const addReview = (rating) => async (dispatch) => {
+  try {
+    dispatch({ type: 'ADD_REVIEW_REQ' })
+    const { data } = await authAxios.put(`/api/v1/review`, rating)
+    dispatch({ type: 'ADD_REVIEW_SUCCESS', payload: data.success })
+  } catch (error) {
+    dispatch({ type: 'ADD_REVIEW_ERROR', payload: error.response.data.message })
   }
 }
