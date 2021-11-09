@@ -3,16 +3,19 @@ export const productReducer = (state = {}, action) => {
   switch (action.type) {
     case
       "ALL_PRODUCTS_REQ":
+    case
+      "ADMIN_ALL_PRODUCTS_REQ":
       return {
         loading: true,
         products: []
       }
     case
       "ALL_PRODUCTS_SUCCESS":
+    case
+      "ADMIN_ALL_PRODUCTS_SUCCESS":
       return {
         loading: false,
         allProducts: action.payload,
-
       }
     case "ALL_PRODUCTS_FAIL":
       return {
@@ -91,6 +94,29 @@ export const addReviewReducer = (state = {}, action) => {
         error: action.payload
       }
 
+    default:
+      return state;
+  }
+}
+
+export const deleteProductReducer = (state = {}, action) => {
+  switch (action.type) {
+    case "DELETE_PRODUCT_SUCCESS":
+      return {
+        ...state,
+        success: action.payload
+      }
+    case "DELETE_PRODUCT_FAILED":
+      return {
+        ...state,
+        success: false,
+        error: action.payload
+      }
+    case "DELETE_PRODUCT_RESET":
+      return {
+        ...state,
+        success: null
+      }
     default:
       return state;
   }

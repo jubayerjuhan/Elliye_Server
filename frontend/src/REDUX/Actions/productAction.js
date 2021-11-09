@@ -43,11 +43,38 @@ export const getSingleProduct = (id) => async (dispatch) => {
 }
 
 export const addReview = (rating) => async (dispatch) => {
+  console.log(rating)
   try {
     dispatch({ type: 'ADD_REVIEW_REQ' })
     const { data } = await authAxios.put(`/api/v1/review`, rating)
     dispatch({ type: 'ADD_REVIEW_SUCCESS', payload: data.success })
   } catch (error) {
     dispatch({ type: 'ADD_REVIEW_ERROR', payload: error.response.data.message })
+  }
+}
+
+
+// fetching products to show on the admin dashboard
+export const allAdminProducts = () => async (dispatch) => {
+  try {
+    dispatch({ type: 'ADMIN_ALL_PRODUCTS_REQ' })
+    const { data } = await authAxios.get('/api/v1/admin/allProducts')
+    dispatch({ type: 'ADMIN_ALL_PRODUCTS_SUCCESS', payload: data.products })
+  }
+  catch (err) {
+    dispatch({
+      type: 'ALL_PRODUCTS_FAIL',
+      payload: err,
+    })
+  }
+}
+
+// delete product from the Database
+export const deleteProduct = (id) => async (dispatch) => {
+  try {
+    const { data } = await authAxios.delete(`/api/v1/admin/product/${id}`)
+    dispatch({ type: 'DELETE_PRODUCT_SUCCESS', payload: data.success })
+  } catch (error) {
+    dispatch({ type: 'DELETE_PRODUCT_FAILED', payload: error })
   }
 }

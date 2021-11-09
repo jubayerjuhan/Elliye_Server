@@ -39,7 +39,7 @@ export default function SpeedDialBasic() {
 
   const handleClick = (name) => {
     if (name === "Dashboard") {
-      history.push("/admin/profile");
+      history.push("/admin/dashboard");
     } else if (name === "Logout") {
       dispatch(logoutUser());
       history.push("/");

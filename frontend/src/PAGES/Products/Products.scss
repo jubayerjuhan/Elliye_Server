@@ -36,6 +36,17 @@
   height: auto;
   margin-left: 20px;
 }
+
+.dialogButton {
+  width: 100%;
+  display: flex;
+  justify-content: flex-end;
+}
+
+button:disabled {
+  cursor: not-allowed;
+  filter: grayscale(100%);
+}
 @media (max-width: 768px) {
   .productContainer {
     justify-content: space-around;

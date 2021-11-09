@@ -50,6 +50,22 @@
   margin-left: 20px;
 }
 
+.dialogButton {
+  width: 100%;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: end;
+      -ms-flex-pack: end;
+          justify-content: flex-end;
+}
+
+button:disabled {
+  cursor: not-allowed;
+  -webkit-filter: grayscale(100%);
+          filter: grayscale(100%);
+}
+
 @media (max-width: 768px) {
   .productContainer {
     -ms-flex-pack: distribute;

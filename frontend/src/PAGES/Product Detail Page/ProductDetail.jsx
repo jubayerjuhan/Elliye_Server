@@ -80,8 +80,6 @@ const ProductDetail = () => {
     productId: singleProduct?._id,
   };
 
-  console.log(review);
-
   const handleReview = () => {
     setOpen(false);
     dispatch(addReview(review));
@@ -191,12 +189,14 @@ const ProductDetail = () => {
                         style={{ width: 200 }}
                         onChange={(e) => setText(e.target.value)}
                       />
-                      <Button onClick={() => setOpen(false)} variant="text">
-                        Cancel
-                      </Button>
-                      <Button onClick={handleReview} variant="text">
-                        Submit
-                      </Button>
+                      <div className="dialogButton">
+                        <Button onClick={() => setOpen(false)} variant="text">
+                          Cancel
+                        </Button>
+                        <Button onClick={handleReview} variant="text">
+                          Submit
+                        </Button>
+                      </div>
                     </div>
                   </Dialog>
                 </div>

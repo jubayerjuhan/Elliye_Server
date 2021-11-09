@@ -18,6 +18,17 @@ exports.createProduct = catchAsyncError(async (req, res, next) => {
 });
 
 /**
+ * all admin product
+ */
+exports.allAdminProduct = catchAsyncError(async (req, res, next) => {
+  const products = await Product.find({})
+  res.status(200).json({
+    success: true,
+    products
+  })
+})
+
+/**
  * *Get Reading/Getting Product
  * 
  */

@@ -30,6 +30,9 @@ import { useState } from 'react';
 import OrderSuccess from './PAGES/Order Success/Ordersuccess';
 import MyOrders from './PAGES/View All Orders/MyOrders.jsx';
 import OrderDetails from './PAGES/OrderDetail/OrderDetail'
+import Sidebar from "./Components/Admin Panel/Sidebar/Sidebar";
+import Dashboard from "./Components/Admin Panel/Dashboard/Dashboard";
+import AllProducts from "./Components/Admin Panel/All Products/AllProducts";
 
 
 function App() {
@@ -59,6 +62,7 @@ function App() {
         <Route exact path='/forget-password' component={ForgetPassword}></Route>
         <Route exact path='/cart' component={Cart}></Route>
         <Route exact path='/password/reset/:resetToken' component={PasswordReset}></Route>
+        <Route exact path='/sidebar' component={Sidebar}></Route>
         <Protectedroute exact path='/account' component={MyProfile}></Protectedroute>
         <Protectedroute exact path='/profile/edit-profile' component={EditProfile}></Protectedroute>
         <Protectedroute exact path='/profile/change-password' component={ChangePassword}></Protectedroute>
@@ -67,6 +71,9 @@ function App() {
         <Protectedroute exact path='/order/success' component={OrderSuccess}></Protectedroute>
         <Protectedroute exact path='/orders' component={MyOrders}></Protectedroute>
         <Protectedroute exact path='/orders/:id' component={OrderDetails}></Protectedroute>
+        <Protectedroute isAdmin={true} exact path='/admin/dashboard' component={Dashboard}></Protectedroute>
+        <Protectedroute isAdmin={true} exact path='/admin/all-products' component={AllProducts}></Protectedroute>
+
         {stripeKey &&
           <Elements stripe={loadStripe(stripeKey)}>
             <Protectedroute exact path='/order/payment' component={Payment}></Protectedroute>

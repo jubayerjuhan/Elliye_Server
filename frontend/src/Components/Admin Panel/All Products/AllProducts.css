@@ -1,0 +1,34 @@
+.MuiDataGrid-columnHeaderWrapper {
+  color: white;
+  background-color: crimson;
+}
+
+.actionOfProducts {
+  cursor: pointer;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: justify;
+      -ms-flex-pack: justify;
+          justify-content: space-between;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+}
+
+.actionOfProducts a {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+}
+
+.actionOfProducts svg {
+  font-size: 2rem;
+  cursor: pointer;
+  margin-left: 30px;
+  color: crimson;
+}
+/*# sourceMappingURL=AllProducts.css.map */
