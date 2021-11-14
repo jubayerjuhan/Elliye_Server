@@ -2,12 +2,39 @@ const Product = require('../Models/productmodel.js')
 const ErrorHandler = require('../Utils/errorHandler.js')
 const catchAsyncError = require('../Middleware/catchAsyncError.js');
 const ApiFeature = require('../Utils/apiFeature.js');
+const { cloudinary } = require('../Utils/cloudinary-config.js');
 
 /**
  * *Creating Product
  * ?Only Admin Access
  */
 exports.createProduct = catchAsyncError(async (req, res, next) => {
+
+  let images = []
+  let imagelinks = []
+
+  if (typeof req.body.images === 'string') {
+    images.push(req.body.images)
+  } else {
+    images = req.body.images
+  }
+
+  //upload image to cloudinary
+  if (images.length > 0) {
+    for (let i = 0; i < images.length; i++) {
+      const newImage = await cloudinary.uploader.upload(images[i], {
+        folder: 'products'
+      })
+      console.log(newImage)
+      imagelinks.push({
+        public_id: newImage.public_id,
+        url: newImage.secure_url
+      })
+    }
+  }
+  req.body.images = imagelinks
+  console.log(req.body)
+
   req.body.user = await req.user.id;
   const product = await Product.create(req.body)
   if (!product) return next(new ErrorHandler('Couldnt create product', 409))
@@ -57,6 +84,32 @@ exports.updateProduct = catchAsyncError(async (req, res, next) => {
   const { id } = req.params;
   let product = await Product.findById(id)
   if (!product) return next(new ErrorHandler('Product Not Found', 404));
+
+  //images start from here
+  let images = [];
+  if (typeof req.body.images === 'string') {
+    images.push(req.body.images)
+  } else {
+    images = req.body.images
+  }
+
+  let imageLinks = []
+
+  if (images !== undefined) {
+    for (let i = 0; i < images.length; i++) {
+      const newImage = await cloudinary.uploader.upload(images[i], {
+        folder: 'products',
+      })
+      imageLinks.push({
+        public_id: newImage.public_id,
+        url: newImage.secure_url
+      })
+    }
+    req.body.images = imageLinks;
+  }
+
+  console.log(req.body)
+
   product = await Product.findByIdAndUpdate(id, req.body, {
     new: true, runValidators: true, useFindAndModify: false
   })
@@ -74,6 +127,12 @@ exports.deleteProduct = catchAsyncError(async (req, res, next) => {
   const { id } = req.params
   const product = await Product.findById(id)
   if (!product) return next(new ErrorHandler('Product not found', 404))
+
+  const images = product.images
+  for (let i = 0; i < images.length; i++) {
+    await cloudinary.uploader.destroy(images[i].public_id)
+  }
+
   product.remove()
   res.status(200).json({
     success: true,
@@ -173,5 +232,14 @@ exports.deleteReview = catchAsyncError(async (req, res, next) => {
 
   res.status(200).json({
     success: true,
+  })
+})
+
+
+exports.getDBAllProductAdmin = catchAsyncError(async (req, res, next) => {
+  const DBallProducts = await Product.find({})
+  res.status(200).json({
+    success: true,
+    products: DBallProducts
   })
 })

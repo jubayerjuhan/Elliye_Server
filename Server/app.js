@@ -5,13 +5,18 @@ const cookieParser = require('cookie-parser')
 const cors = require('cors')
 const bodyParser = require('body-parser')
 const fileupload = require('express-fileupload')
-
+const path = require('path')
 
 app.use(express.json())
 app.use(cookieParser())
 app.use(bodyParser.urlencoded({ extended: true }))
 app.use(fileupload())
 app.use(cors())
+
+app.use(express.static(path.join(__dirname, '../frontend/build')))
+app.get('*', (req, res) => {
+  res.sendFile(path.resol)
+})
 
 
 //route imports 

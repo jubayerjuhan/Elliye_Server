@@ -38,8 +38,16 @@
   -webkit-box-pack: center;
       -ms-flex-pack: center;
           justify-content: center;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
   border-radius: 50%;
   color: #31343c;
+}
+
+.dashboard .heroInfo div p {
+  margin: 0.4rem;
 }
 
 .dashboard .priceInfo {

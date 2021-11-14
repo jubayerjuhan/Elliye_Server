@@ -1,11 +1,11 @@
 import { createStore, combineReducers, applyMiddleware } from 'redux'
 import { composeWithDevTools } from 'redux-devtools-extension'
 import thunk from 'redux-thunk'
-import { addReviewReducer, deleteProductReducer, productReducer, singleProductReducer } from './Reducers/productReducers.js'
+import { addProductReducer, addReviewReducer, adminProductReducer, deleteProductReducer, productReducer, singleProductReducer, updateProductReducer } from './Reducers/productReducers.js'
 import logger from 'redux-logger'
-import { changePasswordReducer, profileReducer, userReducer } from './Reducers/userReducer.js'
+import { adminAllUserReducer, changePasswordReducer, deleteUserReducer, profileReducer, singleUserReducer, updateUserReducer, userReducer } from './Reducers/userReducer.js'
 import { cartReducer } from "./Reducers/cartReducer";
-import { orderReducer, singleOrderReducer } from './Reducers/orderReducer.js'
+import { adminAllOrdersReducer, deleteOrderReducer, orderReducer, singleOrderReducer, updateOrderReducer } from './Reducers/orderReducer.js'
 const reducer = combineReducers({
   user: userReducer,
   products: productReducer,
@@ -16,7 +16,17 @@ const reducer = combineReducers({
   orders: orderReducer,
   singleOrder: singleOrderReducer,
   addReview: addReviewReducer,
-  deleteProduct: deleteProductReducer
+  deleteProduct: deleteProductReducer,
+  adminProducts: adminProductReducer,
+  updateProduct: updateProductReducer,
+  addProduct: addProductReducer,
+  adminOrders: adminAllOrdersReducer,
+  updateOrder: updateOrderReducer,
+  deleteOrder: deleteOrderReducer,
+  allUsers: adminAllUserReducer,
+  deleteUser: deleteUserReducer,
+  singleUser: singleUserReducer,
+  updateUser: updateUserReducer
 })
 const initialState = {
   cart: {

@@ -22,10 +22,10 @@ const AllProducts = () => {
   const alert = useAlert();
   const dp = useSelector((state) => state.deleteProduct);
   const { loading, error, allProducts } = useSelector(
-    (state) => state.products
+    (state) => state.adminProducts
   );
   let rows = [];
-  allProducts &&
+  allProducts.length > 0 &&
     allProducts.forEach((product) =>
       rows.push({
         id: product._id,
@@ -50,7 +50,7 @@ const AllProducts = () => {
       renderCell: (cell) => {
         return (
           <div className="actionOfProducts">
-            <Link to="/hello">
+            <Link to={`/admin/update-product/${cell.getValue(cell.id, "id")}`}>
               <BiEditAlt />
             </Link>
             <MdDeleteOutline
@@ -100,14 +100,16 @@ const AllProducts = () => {
             </div>
           </div>
           <Dialog open={open}>
-            <div>
+            <div className="dialogWrapper">
               <h3>Do You Want to delete this product</h3>
-              <Button onClick={() => setOpen(false)} varient="text">
-                NO
-              </Button>
-              <Button onClick={handleDeleteProduct} varient="text">
-                Yes
-              </Button>
+              <div className="actionButton">
+                <Button onClick={() => setOpen(false)} varient="text">
+                  NO
+                </Button>
+                <Button onClick={handleDeleteProduct} varient="text">
+                  Yes
+                </Button>
+              </div>
             </div>
           </Dialog>
         </Fragment>

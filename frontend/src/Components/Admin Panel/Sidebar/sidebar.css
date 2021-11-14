@@ -26,26 +26,27 @@
   -webkit-box-align: center;
       -ms-flex-align: center;
           align-items: center;
-  margin: 10px 0;
-  padding: 10px;
+  padding: 15px;
   text-decoration: none;
   color: black;
   -webkit-transition: all 300ms ease;
   transition: all 300ms ease;
+  font-size: 14px;
+  font-weight: 600;
 }
 
 .sidebar a p:hover {
   color: crimson;
   border-radius: 0 4px 4px 0;
-  background-color: #ece7e7;
+  background-color: #d4d4d4;
 }
 
 .sidebar a p:hover svg {
-  color: crimson;
+  color: #949393;
 }
 
 .sidebar a p svg {
-  font-size: 2rem;
+  font-size: 1.5rem;
   margin-right: 20px;
   color: #31343c;
   -webkit-transition: all 300ms ease;

@@ -128,3 +128,122 @@ export const changePasswordReducer = (state = {}, action) => {
       return state;
   }
 }
+
+export const adminAllUserReducer = (state = {}, action) => {
+  switch (action.type) {
+    case "ALL_USERS_REQ":
+      return {
+        ...state,
+        loading: true
+      }
+    case "ALL_USERS_SUCCESS":
+      return {
+        ...state,
+        users: action.payload
+      }
+    case "ALL_USERS_FAILED":
+      return {
+        ...state,
+        error: action.payload,
+        loading: false
+      }
+
+    default:
+      return state;
+  }
+}
+
+export const deleteUserReducer = (state = {}, action) => {
+  switch (action.type) {
+    case "DELETE_USER_REQ":
+      return {
+        ...state,
+        loading: true,
+        success: false
+      }
+    case "DELETE_USER_SUCCESS":
+      return {
+        ...state,
+        loading: false,
+        success: true
+      }
+    case "DELETE_USER_FAILED":
+      return {
+        ...state,
+        loading: false,
+        error: action.payload
+      }
+    case "DELETE_USER_RESET":
+      return {
+        ...state,
+        success: null
+      }
+
+
+    default:
+      return state;
+  }
+}
+
+/**
+ * 
+ *update user reducer
+ */
+export const updateUserReducer = (state = {}, action) => {
+  switch (action.type) {
+    case "UPDATE_USER_REQ":
+      return {
+        ...state,
+        loading: true,
+        success: false
+      }
+    case "UPDATE_USER_SUCCESS":
+      return {
+        ...state,
+        loading: false,
+        success: action.payload
+      }
+    case "UPDATE_USER_FAILED":
+      return {
+        ...state,
+        loading: false,
+        error: action.payload
+      }
+    case "UPDATE_USER_RESET":
+      return {
+        ...state,
+        success: null
+      }
+
+
+    default:
+      return state;
+  }
+}
+
+/**
+ * single user reducer
+ */
+export const singleUserReducer = (state = {}, action) => {
+  switch (action.type) {
+    case "SINGLE_USER_REQ":
+      return {
+        ...state,
+        loading: true,
+      }
+    case "SINGLE_USER_SUCCESS":
+      return {
+        ...state,
+        loading: false,
+        user: action.payload
+      }
+    case "SINGLE_USER_FAILED":
+      return {
+        ...state,
+        loading: false,
+        error: action.payload
+      }
+    default:
+      return state;
+  }
+}

@@ -33,6 +33,14 @@ import OrderDetails from './PAGES/OrderDetail/OrderDetail'
 import Sidebar from "./Components/Admin Panel/Sidebar/Sidebar";
 import Dashboard from "./Components/Admin Panel/Dashboard/Dashboard";
 import AllProducts from "./Components/Admin Panel/All Products/AllProducts";
+import UpdateProducts from './Components/Admin Panel/Update Products/UpdateProducts.jsx';
+import AddProducts from './Components/Admin Panel/Add Products/AddProducts.jsx';
+import Orders from "./Components/Admin Panel/Orders/Orders";
+import UpdateOrder from "./Components/Admin Panel/Order Update/UpdateOrder";
+import ManageUsers from "./Components/Admin Panel/Manage Users/ManageUsers";
+import UpdateUserRole from './Components/Admin Panel/Update User Roles/UpdateUserRole.jsx';
+import ManageReviews from "./Components/Admin Panel/Manage Reviews/ManageReviews";
+import NotFoundPage from './Components/404 Not Found/NotFoundPage.jsx';
 
 
 function App() {
@@ -45,12 +53,19 @@ function App() {
       setStripeKey(data.key)
     }
     loadStripeKey()
+
+    window.addEventListener('contextmenu', (e) => e.preventDefault())
   }, [])
   console.log(stripeKey)
   return (
     <Router>
       <Navbar></Navbar>
       {isAuthenticated && <SpeedDial />}
+      {stripeKey &&
+        <Elements stripe={loadStripe(stripeKey)}>
+          <Protectedroute exact path='/order/payment' component={Payment}></Protectedroute>
+        </Elements>
+      }
       <Switch>
         <Route exact path='/' component={Homepage}></Route>
         <Route path='/product/:id' component={ProductDetail}></Route>
@@ -61,7 +76,7 @@ function App() {
         <Route exact path='/register' component={Register}></Route>
         <Route exact path='/forget-password' component={ForgetPassword}></Route>
         <Route exact path='/cart' component={Cart}></Route>
-        <Route exact path='/password/reset/:resetToken' component={PasswordReset}></Route>
+        <Route path='/password/reset/:resetToken' component={PasswordReset}></Route>
         <Route exact path='/sidebar' component={Sidebar}></Route>
         <Protectedroute exact path='/account' component={MyProfile}></Protectedroute>
         <Protectedroute exact path='/profile/edit-profile' component={EditProfile}></Protectedroute>
@@ -70,17 +85,18 @@ function App() {
         <Protectedroute exact path='/order/confirmation' component={ConfirmOrder}></Protectedroute>
         <Protectedroute exact path='/order/success' component={OrderSuccess}></Protectedroute>
         <Protectedroute exact path='/orders' component={MyOrders}></Protectedroute>
-        <Protectedroute exact path='/orders/:id' component={OrderDetails}></Protectedroute>
+        <Protectedroute path='/orders/:id' component={OrderDetails}></Protectedroute>
         <Protectedroute isAdmin={true} exact path='/admin/dashboard' component={Dashboard}></Protectedroute>
         <Protectedroute isAdmin={true} exact path='/admin/all-products' component={AllProducts}></Protectedroute>
+        <Protectedroute isAdmin={true} path='/admin/update-product/:id' component={UpdateProducts}></Protectedroute>
+        <Protectedroute isAdmin={true} exact path='/admin/add-products' component={AddProducts}></Protectedroute>
+        <Protectedroute isAdmin={true} exact path='/admin/orders' component={Orders}></Protectedroute>
+        <Protectedroute isAdmin={true} path='/admin/order/update/:id' component={UpdateOrder}></Protectedroute>
+        <Protectedroute isAdmin={true} exact path='/admin/manage-users' component={ManageUsers}></Protectedroute>
+        <Protectedroute isAdmin={true} path='/admin/user/update/:id' component={UpdateUserRole}></Protectedroute>
+        <Protectedroute isAdmin={true} path='/admin/manage-reviews' component={ManageReviews}></Protectedroute>
+        <Route exact path='*' component={NotFoundPage}>
 
-        {stripeKey &&
-          <Elements stripe={loadStripe(stripeKey)}>
-            <Protectedroute exact path='/order/payment' component={Payment}></Protectedroute>
-          </Elements>
-        }
-        <Route path='*'>
-          404 Not Found
         </Route>
       </Switch>
       <Footer />

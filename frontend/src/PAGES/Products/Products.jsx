@@ -19,12 +19,13 @@ const Products = ({ match }) => {
   const { allProducts, error } = useSelector((state) => state.products);
   const alert = useAlert();
   const [page, setPage] = useState(1);
+  console.log(page);
   const keyword = match.params.keyword;
   console.log(keyword);
   const totalPagination = Math.ceil(
     allProducts?.productsCount / allProducts?.resultPerPage
   );
-  const [priceValue, setPriceValue] = useState([0, 25000]);
+  const [priceValue, setPriceValue] = useState([0, 250000000]);
   const categories = ["Phone", "Camera", "Laptop", "Shoes", "Gadget"];
   const [category, setCategory] = useState("");
   const handleCategory = (e) => {
@@ -43,7 +44,7 @@ const Products = ({ match }) => {
       alert.error(error);
     }
     dispatch(getAllProducts(keyword, page, priceValue, category, rating));
-  }, [alert, dispatch, error, keyword, priceValue, category, page, rating]);
+  }, [alert, page, dispatch, error, keyword, priceValue, category, rating]);
   const handleChange = (e, value) => {
     setPriceValue(value);
   };
@@ -56,6 +57,8 @@ const Products = ({ match }) => {
       </div>
       {!allProducts ? (
         <Loader />
+      ) : allProducts && allProducts.length === 0 ? (
+        <h1>No Products</h1>
       ) : (
         <Fragment>
           <div className="filterbox">

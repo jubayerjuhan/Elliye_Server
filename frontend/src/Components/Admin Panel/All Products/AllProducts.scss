@@ -19,3 +19,14 @@
     color: crimson;
   }
 }
+
+.dialogWrapper {
+  h3 {
+    text-align: center;
+  }
+  .actionButton {
+    width: 100%;
+    display: flex;
+    justify-content: flex-end;
+  }
+}

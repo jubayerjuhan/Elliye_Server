@@ -1,9 +1,8 @@
 import React, { Fragment, useEffect, useState } from "react";
-import { MdEmail, MdFilePresent, MdOutlinePeopleOutline } from "react-icons/md";
+import { MdEmail, MdOutlinePeopleOutline } from "react-icons/md";
 import "../../PAGES/Login/Login.css";
 import {
   clearError,
-  clearSuccess,
   editUserProfile,
   loadUser,
 } from "../../REDUX/Actions/userAction.js";
@@ -21,13 +20,12 @@ const EditProfile = () => {
   const dispatch = useDispatch();
   const alert = useAlert();
   const history = useHistory();
-  const { loading, isUpdated, success, error } = useSelector(
-    (state) => state.profile
-  );
+  const { loading, isUpdated, error } = useSelector((state) => state.profile);
   const profile = useSelector((state) => state.profile);
   const [regCredentials, setRegCredentials] = useState(initialState);
   const { name, email } = regCredentials;
   const [avatar, setAvatar] = useState("");
+  console.log(avatar);
   const handleChange = (e) => {
     if (e.target.name === "avatar") {
       const reader = new FileReader();

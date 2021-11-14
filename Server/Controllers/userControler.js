@@ -194,13 +194,12 @@ exports.getAllUsers = catchAsyncError(async (req, res, next) => {
 exports.getSingleUser = catchAsyncError(async (req, res, next) => {
   const { id } = req.params
   const user = await User.findById(id)
-
-  if (!user) return next(new ErrorHandler('User Does not exist with id ' + id, 400)),
-
-    res.status(200).json({
-      success: true,
-      user
-    })
+  console.log(user)
+  if (!user) return next(new ErrorHandler('User Does not exist with id ' + id, 400))
+  res.status(200).json({
+    success: true,
+    user
+  })
 })
 
 /**

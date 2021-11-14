@@ -1,11 +1,6 @@
 import React, { Fragment, useEffect, useState } from "react";
-import { MdLock, MdLockOutline, MdVpnKey } from "react-icons/md";
-import {
-  changePassword,
-  clearError,
-  loadUser,
-  resetPassword,
-} from "./../../REDUX/Actions/userAction";
+import { MdLock, MdLockOutline } from "react-icons/md";
+import { clearError, resetPassword } from "./../../REDUX/Actions/userAction";
 import { useDispatch, useSelector } from "react-redux";
 import { useAlert } from "react-alert";
 import { useHistory, useParams } from "react-router";

@@ -2,7 +2,6 @@ import React, { Fragment, useEffect } from "react";
 import { useParams } from "react-router";
 import { getSingleOrder } from "../../REDUX/Actions/orderAction.js";
 import { useDispatch } from "react-redux";
-import { authAxios } from "../../Utils/Axios/axios.js";
 import { useSelector } from "react-redux";
 import "./orderdetail.css";
 

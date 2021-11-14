@@ -88,6 +88,7 @@ const Payment = () => {
             id: result.paymentIntent.id,
             status: result.paymentIntent.status,
           };
+          localStorage.removeItem("cart");
           dispatch(createOrder(orderData));
           if (!error) {
             history.push("/order/success");

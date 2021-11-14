@@ -40,6 +40,38 @@ export const getSingleOrder = (id) => async (dispatch) => {
   }
 }
 
+export const getAllOrders = () => async (dispatch) => {
+  try {
+    dispatch({ type: 'ADMIN_ALL_ORDERS_REQ' })
+    const { data } = await authAxios.get(`/api/v1/admin/orders`)
+    dispatch({ type: 'ADMIN_ALL_ORDERS_SUCCESS', payload: data.orders })
+  } catch (err) {
+    dispatch({ type: 'ADMIN_ALL_ORDERS_FAILED', payload: err })
+  }
+}
+export const updateOrder = (id, status) => async (dispatch) => {
+  try {
+    console.log('status', { status })
+    dispatch({ type: 'UPDATE_ORDER_REQ' })
+    const { data } = await authAxios.put(`api/v1/admin/order/${id}`, { status })
+    console.log('ddff', data)
+    dispatch({ type: 'UPDATE_ORDER_SUCCESS', payload: data.success })
+  } catch (err) {
+    dispatch({ type: 'UPDATE_ORDER_FAILED', payload: err })
+  }
+}
+
+export const deleteOrder = (id) => async (dispatch) => {
+  try {
+    dispatch({ type: 'DELETE_ORDER_REQ' })
+    const { data } = await authAxios.delete(`/api/v1/admin/order/${id}`)
+    dispatch({ type: 'DELETE_ORDER_SUCCESS', payload: data.success })
+  } catch (err) {
+    dispatch({ type: 'DELETE_ORDER_REQ', payload: err.response.data.message })
+  }
+}
+
 export const clearErrors = () => async (dispatch) => {
   dispatch({ type: 'CLEAR_ERRORS' })
 }
+

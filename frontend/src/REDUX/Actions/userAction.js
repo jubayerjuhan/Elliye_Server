@@ -1,6 +1,5 @@
 import { authAxios } from "../../Utils/Axios/axios.js";
 import { saveLocalStorage } from "../../Utils/LocalStorage/saveLocalStorage.js";
-import axios from "axios";
 
 export const reqLoginUser = (email, password) => async (dispatch) => {
 
@@ -129,5 +128,64 @@ export const resetPassword = (passwords, token) => async (dispatch) => {
   } catch (error) {
     console.log(error.response.data.message)
     dispatch({ type: "RESET_PASSWORD_FAILED", payload: error.response.data.message })
+  }
+}
+
+
+/**
+ * 
+ * getting all users for admin
+ */
+
+export const getAllUsers = () => async (dispatch) => {
+  try {
+    dispatch({ type: 'ALL_USERS_REQ' })
+    const { data } = await authAxios.get(`/api/v1/admin/all-users`)
+    console.log()
+    dispatch({ type: 'ALL_USERS_SUCCESS', payload: data.users })
+  } catch (err) {
+    dispatch({ type: 'ALL_USERS_FAILED', payload: err.response.data.message })
+  }
+}
+
+/**
+ * 
+ * delete user here
+ */
+export const deleteUser = (id) => async (dispatch) => {
+  try {
+    dispatch({ type: 'DELETE_USER_REQ' })
+    const { data } = await authAxios.delete(`/api/v1/admin/delete/user/${id}`)
+    dispatch({ type: 'DELETE_USER_SUCCESS', payload: data.success })
+  } catch (err) {
+    dispatch({ type: 'DELETE_USER_FAILED', payload: err })
+  }
+}
+
+/**
+ * 
+ * get single user by this api => admin
+ */
+export const getSingleUser = (id) => async (dispatch) => {
+  try {
+    dispatch({ type: 'SINGLE_USER_REQ' })
+    const { data } = await authAxios.get(`/api/v1/admin/user/${id}`)
+    console.log("data", data)
+    dispatch({ type: 'SINGLE_USER_SUCCESS', payload: data.user })
+  } catch (err) {
+    dispatch({ type: 'SINGLE_USER_FAILED', payload: err.response.data.message })
+  }
+}
+/**
+ * 
+ * update user role
+ */
+export const updateRole = (id, role) => async (dispatch) => {
+  try {
+    dispatch({ type: 'UPDATE_USER_REQ' })
+    const { data } = await authAxios.put(`/api/v1//admin/user/edit-role/${id}`, { role })
+    dispatch({ type: 'UPDATE_USER_SUCCESS', payload: data.success })
+  } catch (err) {
+    dispatch({ type: 'UPDATE_USER_FAILED', payload: err.response.data.message })
   }
 }

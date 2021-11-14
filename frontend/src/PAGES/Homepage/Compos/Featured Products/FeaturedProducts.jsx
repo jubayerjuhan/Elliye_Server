@@ -17,7 +17,11 @@ const FeaturedProducts = ({ product }) => {
     <Link className="feat-product-card" to={`/product/${product._id}`}>
       {/* <div className="container"> */}
       <div className="image">
-        <img className="img-responsive" src={product.images[0].url} alt="" />
+        <img
+          className="img-responsive"
+          src={product.images[0].url ? product.images[0].url : ""}
+          alt=""
+        />
       </div>
       <h5 className="title">{product.name}</h5>
       <ReactStars className="starwar" {...options} />

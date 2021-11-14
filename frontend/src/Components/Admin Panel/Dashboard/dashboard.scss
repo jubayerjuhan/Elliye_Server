@@ -12,7 +12,6 @@
     justify-content: space-evenly;
     align-items: center;
     border-radius: 10px;
-
     div {
       height: 150px;
       width: 150px;
@@ -21,8 +20,12 @@
       display: flex;
       align-items: center;
       justify-content: center;
+      flex-direction: column;
       border-radius: 50%;
       color: #31343c;
+      p {
+        margin: 0.4rem;
+      }
     }
   }
   .priceInfo {
