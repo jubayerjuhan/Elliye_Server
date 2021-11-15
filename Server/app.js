@@ -13,10 +13,12 @@ app.use(bodyParser.urlencoded({ extended: true }))
 app.use(fileupload())
 app.use(cors())
 
-app.use(express.static(path.join(__dirname, '../frontend/build')))
-app.get('*', (req, res) => {
-  res.sendFile(path.resol)
-})
+
+//env
+if (process.env.NODE_ENV !== "PRODUCTION") {
+  require("dotenv").config({ path: "Server/Config/config.env" });
+}
+
 
 
 //route imports 

@@ -1,4 +1,3 @@
-require("dotenv").config({ path: "Server/Config/config.env" });
 const cloudinary = require('cloudinary').v2
 
 cloudinary.config({

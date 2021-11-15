@@ -10,6 +10,9 @@ const server = app.listen(process.env.PORT, () => {
   console.log("listening on port " + process.env.PORT)
 });
 
+if (process.env.NODE_ENV !== "PRODUCTION") {
+  require("dotenv").config({ path: "Server/Config/config.env" });
+}
 /**
  * !uncaught error
  */
