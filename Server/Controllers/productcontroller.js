@@ -174,9 +174,10 @@ exports.addRating = catchAsyncError(async (req, res, next) => {
 
   if (isReviewed) {
     product.reviews.forEach(rev => {
-      if (rev.user.toString() === req.user._id.toString())
+      if (rev.user.toString() === req.user._id.toString()) {
         rev.rating = rating
-      rev.comment = comment
+        rev.comment = comment
+      }
     });
   }
   else {
