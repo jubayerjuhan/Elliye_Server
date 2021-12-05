@@ -12,19 +12,16 @@ const { sendResetPassEmail } = require('../Utils/JetmailEmail.js');
 
 exports.registerUser = catchAsyncError(async (req, res, next) => {
   const { name, email, password } = req.body
-  const userAvatar = await cloudinary.uploader.upload(req.body.avatar, {
-    foler: 'MERN-ECOM-AVATARS',
-    width: 150,
-    crop: "scale"
-  })
+  // const userAvatar = await cloudinary.uploader.upload(req.body.avatar, {
+  //   foler: 'MERN-ECOM-AVATARS',
+  //   width: 150,
+  //   crop: "scale"
+  // })
   const user = await User.create({
     name,
     email,
     password,
-    avatar: {
-      public_id: userAvatar.public_id,
-      url: userAvatar.secure_url
-    }
+    //  
   })
   res.header('Access-Control-Allow-Credentials', true);
   res.header('Access-Control-Allow-Origin', req.headers.origin);
