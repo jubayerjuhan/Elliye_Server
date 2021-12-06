@@ -9,8 +9,7 @@ exports.authorizeUser = async (req, res, next) => {
   const token = authHeader && authHeader.split(' ')[1]
   const expiry = authHeader && authHeader.split(' ')[2]
   const expired = Date.now() > expiry;
-  console.log(authHeader)
-  if (!token || expired) return next(new ErrorHandler('Please Login First', 401));
+  if (!token) return next(new ErrorHandler('Please Login First', 401));
   const decodeData = jwt.verify(token, process.env.JWT_SECRET)
   if (!decodeData) return next(new ErrorHandler('You Messed your jwt token', 404));
   req.user = await User.findById(decodeData.id)

@@ -28,16 +28,6 @@ const userSchema = new mongoose.Schema({
     minLength: [8, 'Password Should have at least 4 characters'],
     select: false,
   },
-  avatar: {
-    public_id: {
-      type: String,
-      required: true
-    },
-    url: {
-      type: String,
-      required: true
-    }
-  },
   role: {
     type: String,
     default: 'user'
@@ -45,6 +35,17 @@ const userSchema = new mongoose.Schema({
   resetPasswordToken: String,
   resetPasswordExpire: Date,
 })
+
+// avatar: {
+//   public_id: {
+//     type: String,
+//     required: true
+//   },
+//   url: {
+//     type: String,
+//     required: true
+//   }
+// },
 
 /**
  * *Hashing Password When New Password is Entered
