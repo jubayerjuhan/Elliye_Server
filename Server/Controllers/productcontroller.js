@@ -9,6 +9,7 @@ const { cloudinary } = require('../Utils/cloudinary-config.js');
  * ?Only Admin Access
  */
 exports.createProduct = catchAsyncError(async (req, res, next) => {
+  console.log(req.body)
 
   let images = []
   let imagelinks = []
@@ -23,7 +24,10 @@ exports.createProduct = catchAsyncError(async (req, res, next) => {
   if (images.length > 0) {
     for (let i = 0; i < images.length; i++) {
       const newImage = await cloudinary.uploader.upload(images[i], {
-        folder: 'products'
+        folder: 'products',
+        crop: "scale",
+        height: 500,
+        width: 500,
       })
       console.log(newImage)
       imagelinks.push({
