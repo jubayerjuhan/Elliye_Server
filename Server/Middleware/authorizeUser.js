@@ -8,6 +8,7 @@ exports.authorizeUser = async (req, res, next) => {
   const authHeader = req.headers.authorization
   const token = authHeader && authHeader.split(' ')[1]
   const expiry = authHeader && authHeader.split(' ')[2]
+  console.log(authHeader)
   const expired = Date.now() > expiry;
   if (!token) return next(new ErrorHandler('Please Login First', 401));
   const decodeData = jwt.verify(token, process.env.JWT_SECRET)

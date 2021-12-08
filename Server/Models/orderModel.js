@@ -40,14 +40,12 @@ const orderSchema = new mongoose.Schema({
         type: Number,
         required: true,
       },
-      image: [
-        {
-          public_id: String,
-          url: String
-        }
+      image: {
+        type: String,
+        required: true,
+      },
 
-      ],
-      product: {
+      _id: {
         type: mongoose.Schema.ObjectId,
         ref: 'Product',
         required: true,

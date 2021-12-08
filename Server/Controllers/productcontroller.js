@@ -73,6 +73,7 @@ exports.getAllproducts = catchAsyncError(async (req, res) => {
   const products = await searchProducts.query
 
   res.status(200).json({
+
     success: true,
     products,
     productsCount,

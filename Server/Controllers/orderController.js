@@ -13,10 +13,12 @@ exports.placeOrder = catchAsyncError(async (req, res, next) => {
     paymentInfo,
     priceBreakdown,
   } = req.body;
+  console.log(req.body)
 
   const order = await Order.create({
     shippingInfo,
     orderItems,
+
     paymentInfo,
     priceBreakdown,
     user: req.user._id,
