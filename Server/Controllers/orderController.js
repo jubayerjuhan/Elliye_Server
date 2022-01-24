@@ -1,3 +1,4 @@
+const { consumers } = require('nodemailer/lib/xoauth2');
 const catchAsyncError = require('../Middleware/catchAsyncError.js')
 const Order = require('../Models/orderModel.js');
 const Product = require('../Models/productmodel.js');
@@ -66,9 +67,11 @@ exports.getAllOrders = catchAsyncError(async (req, res, next) => {
   let orderValue = 0;
   orders.forEach((order) => orderValue += order.priceBreakdown.totalPrice)
 
+  const orderReversed = orders.reverse()
+
   res.status(200).json({
     success: true,
-    orders,
+    orders: orderReversed,
     orderValue
   })
 })
@@ -91,14 +94,18 @@ exports.updateOrder = catchAsyncError(async (req, res, next) => {
 
 
   const updateStock = async (id, quantity) => {
+    console.log(id, quantity, 'contril')
     const product = await Product.findById(id)
     product.stock -= quantity;
     await product.save({ validateBeforeSave: false });
   }
-  if (req.body.status === 'Shipped') {
+  if (req.body.status === 'Shipped' || 'Delivered') {
+    console.log(order)
     order.orderItems.forEach(async item => {
-      await updateStock(item.product, item.quantity)
+
+      await updateStock(item._id, item.quantity)
     })
+    console.log(order)
   }
 
 
