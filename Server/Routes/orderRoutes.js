@@ -8,7 +8,7 @@ router.route('/order/:id').get(authorizeUser, getSingleOrder)
 router.route('/my-orders').get(authorizeUser, myOrders)
 
 //--> Admin <--//
-router.route('/admin/orders').get(authorizeUser, authorizeRoles('admin'), getAllOrders)
+router.route('/admin/orders').get(getAllOrders)
 router.route('/admin/order/:id')
   .put(authorizeUser, authorizeRoles('admin'), updateOrder)
   .delete(authorizeUser, authorizeRoles('admin'), deleteOrder)
