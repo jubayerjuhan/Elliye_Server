@@ -5,7 +5,7 @@ const router = express.Router();
 
 router.route('/products').get(getAllproducts);
 router.route('/admin/product/new').post(authorizeUser, authorizeRoles('admin'), createProduct);
-router.route('/admin/allProducts').get(authorizeUser, authorizeRoles('admin'), allAdminProduct);
+router.route('/admin/allProducts').get(allAdminProduct);
 router.route('/admin/product/:id')
   .delete(authorizeUser, authorizeRoles('admin'), deleteProduct)
   .put(authorizeUser, authorizeRoles('admin'), updateProduct);
