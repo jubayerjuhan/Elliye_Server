@@ -250,3 +250,13 @@ exports.getDBAllProductAdmin = catchAsyncError(async (req, res, next) => {
   })
 })
 
+
+exports.getProductWithKitchenName = catchAsyncError(async (req, res, next) => {
+  const { id } = req.params;
+  const products = await Product.find({ kitchen: id }).populate('kitchen')
+
+  res.status(200).json({
+    success: true,
+    products
+  })
+})

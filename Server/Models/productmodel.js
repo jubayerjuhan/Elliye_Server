@@ -69,6 +69,10 @@ const productSchema = new mongoose.Schema({
       },
     },
   ],
+  kitchen: {
+    type: mongoose.Schema.ObjectId,
+    ref: "kitchen",
+  },
   user: {
     type: mongoose.Schema.ObjectId,
     ref: 'user',
