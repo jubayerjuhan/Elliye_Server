@@ -22,6 +22,10 @@ module.exports = (err, req, res, next) => {
     const message = `Invalid JWT Token Found`
     err = new ErrorHandler(message, 400)
   }
+  if (err.name === 'invalid signature') {
+    const message = `Invalid Signature Found`
+    err = new ErrorHandler(message, 400)
+  }
   //JWT expire error
   if (err.name === 'TokenExpireError') {
     const message = ` JWT Token Expired`

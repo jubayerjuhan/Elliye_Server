@@ -2,6 +2,7 @@ const { consumers } = require('nodemailer/lib/xoauth2');
 const catchAsyncError = require('../Middleware/catchAsyncError.js')
 const Order = require('../Models/orderModel.js');
 const Product = require('../Models/productmodel.js');
+const Coupon = require('../Models/couponModel.js');
 const ErrorHandler = require('../Utils/errorHandler.js');
 
 /**
@@ -129,4 +130,51 @@ exports.deleteOrder = catchAsyncError(async (req, res, next) => {
     message: 'Order Delete Successful'
   })
 
+})
+
+
+exports.createCoupon = catchAsyncError(async (req, res, next) => {
+  const { code, discount } = req.body;
+  const coupon = await Coupon.create({
+    code,
+    discount
+  })
+  res.status(201).json({
+    success: true,
+    coupon
+  })
+})
+exports.getAllCoupon = catchAsyncError(async (req, res, next) => {
+
+  const coupons = await Coupon.find()
+  res.status(201).json({
+    success: true,
+    coupons
+  })
+})
+
+
+exports.validateCoupon = catchAsyncError(async (req, res, next) => {
+  console.log(req.body)
+
+
+  const coupon = await Coupon.findOne({ code: req.body.coupon.toUpperCase(), $options: 'i' })
+  if (!coupon) return next(new ErrorHandler('Coupon not valid', 404))
+  res.status(200).json({
+    success: true,
+    coupon,
+    message: 'Coupon Added Successfully',
+  })
+})
+
+
+exports.deleteCoupon = catchAsyncError(async (req, res, next) => {
+  const coupon = await Coupon.findById(req.params.id)
+  if (!coupon) return next(new ErrorHandler('Coupon not found', 404))
+  await coupon.remove()
+
+  res.status(200).json({
+    success: true,
+    message: 'Coupon Delete Successful'
+  })
 })

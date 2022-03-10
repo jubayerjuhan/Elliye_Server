@@ -1,4 +1,5 @@
 const express = require('express');
+const { addKitchen, getAllKitchen } = require('../Controllers/kitchenController.js');
 const { getAllproducts, createProduct, updateProduct, deleteProduct, allAdminProduct, getSingleProduct, addRating, getAllReviews, deleteReview } = require('../Controllers/productcontroller.js');
 const { authorizeUser, authorizeRoles } = require('../Middleware/authorizeUser.js');
 const router = express.Router();
@@ -13,6 +14,8 @@ router.route('/admin/product/:id')
 router.route('/product/:id').get(getSingleProduct)
 router.route('/review').put(authorizeUser, addRating)
 router.route('/reviews').get(getAllReviews).delete(authorizeUser, deleteReview)
+router.route('/kitchen/add').post(authorizeUser, authorizeRoles('admin'), addKitchen)
+router.route('/kitchens').get(getAllKitchen)
 
 
 module.exports = router;
