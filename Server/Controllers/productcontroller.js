@@ -9,7 +9,6 @@ const { cloudinary } = require('../Utils/cloudinary-config.js');
  * ?Only Admin Access
  */
 exports.createProduct = catchAsyncError(async (req, res, next) => {
-  console.log(req.body)
 
   let images = []
   let imagelinks = []
