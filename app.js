@@ -6,12 +6,15 @@ const cors = require("cors");
 const bodyParser = require("body-parser");
 const fileupload = require("express-fileupload");
 const path = require("path");
+const connectDatabase = require("./Config/database.js");
 
 app.use(express.json());
 app.use(cookieParser());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(fileupload());
 app.use(cors());
+
+connectDatabase();
 
 //env
 if (process.env.NODE_ENV !== "PRODUCTION") {
