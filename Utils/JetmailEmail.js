@@ -22,9 +22,9 @@ exports.sendResetPassEmail = (email, message, res) => {
         "API called successfully. Returned data: " + JSON.stringify(data)
       );
 
-      return res.status(404).json({
+      return res.status(200).json({
         success: true,
-        message: "Passeord Reset Link Sent To Your Email",
+        message: "Password Reset Link Sent To Your Email",
       });
     },
     function (error) {
