@@ -1,65 +1,37 @@
-const mailjet = require('node-mailjet')
-  .connect('2b7673adb30113718bff5521270756b4', 'a751dc56a01fa4afb778dc3e53cccc59')
+const SibApiV3Sdk = require("sib-api-v3-sdk");
 
 exports.sendResetPassEmail = (email, message, res) => {
-  const request = mailjet
-    .post("send", { 'version': 'v3.1' })
-    .request({
-      "Messages": [
-        {
-          "From": {
-            "Email": "davidjuhan23@gmail.com",
-            "Name": "Jubayer"
-          },
-          "To": [
-            {
-              "Email": `${email}`,
-              "Name": "User"
-            }
-          ],
-          "Subject": "Ecommerce Site Password Reset Mail",
-          "TextPart": `${message}`,
-        }
-      ]
-    })
-  request
-    .then((result) => {
-      res.status(200).json({
-        success: true,
-        message: 'We Have Sent A Password Reset Mail To Your Account, Please Check Your Email'
-      })
-    })
-    .catch((err) => {
-      console.log(err.statusCode)
-    })
-}
+  let defaultClient = SibApiV3Sdk.ApiClient.instance;
 
-exports.sendAccountCreateEmail = (email, name) => {
-  const request = mailjet
-    .post("send", { 'version': 'v3.1' })
-    .request({
-      "Messages": [
-        {
-          "From": {
-            "Email": "davidjuhan23@gmail.com",
-            "Name": "Jubayer"
-          },
-          "To": [
-            {
-              "Email": `${email}`,
-              "Name": `${name}`
-            }
-          ],
-          "Subject": "Welcome To New Ecom Site",
-          "TextPart": `Hello ${name}, \n Welcome To Our New Ecom Site\n Shop Good And Happy Coding`,
-        }
-      ]
-    })
-  request
-    .then((result) => {
-      console.log(result)
-    })
-    .catch((err) => {
-      console.log(err.statusCode)
-    })
-}
+  let apiKey = defaultClient.authentications["api-key"];
+  apiKey.apiKey = process.env.SIB_API_KEY;
+
+  let apiInstance = new SibApiV3Sdk.TransactionalEmailsApi();
+
+  let sendSmtpEmail = new SibApiV3Sdk.SendSmtpEmail();
+
+  sendSmtpEmail.subject = "Dimvaji Reset Password";
+  sendSmtpEmail.htmlContent = `<html><body>${message}</body></html>`;
+  sendSmtpEmail.sender = { name: "Dimvaji", email: "dimvajibd@gmail.com" };
+  sendSmtpEmail.to = [{ email, name: "Jane Doe" }];
+  sendSmtpEmail.replyTo = { name: "Dimvaji", email: "dimvajibd@gmail.com" };
+
+  apiInstance.sendTransacEmail(sendSmtpEmail).then(
+    function (data) {
+      console.log(
+        "API called successfully. Returned data: " + JSON.stringify(data)
+      );
+
+      return res.status(404).json({
+        success: true,
+        message: "Passeord Reset Link Sent To Your Email",
+      });
+    },
+    function (error) {
+      return res.status(404).json({
+        success: true,
+        message: "Can't Send Email Reset Password ",
+      });
+    }
+  );
+};
